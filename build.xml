@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="myPhotoShop" default="execute" basedir=".">
+    <!--================================================-->
+    <!--             The project description            -->
+    <!--================================================-->
+    <description>
+        Ant Makefile for ${ant.project.name}
+    </description>
+
+    <!--================================================-->
+    <!--             Some variable definition           -->
+    <!--================================================-->
+    <property environment="env" />
+    <property file="build.properties" />
+    <property name="src" value="${basedir}/src" />
+    <property name="bin" value="${basedir}/bin" />
+    <property name="build" value="${basedir}/build" />
+    <property name="filter" value="${basedir}/filter" />
+    <property name="lib" value="${basedir}/lib" />
+    <property name="doc" value="${basedir}/doc" />
+    <property name="asset" value="${basedir}/asset" />
+    <property name="binary" value="${basedir}/${proj}.jar" />
+    <property name="proj_fullname" value="${login}-${proj}" />
+    <property name="tarball" value="${basedir}/${proj_fullname}.${extension}" />
+    <property name="FilterSource" value="FilterSource" />
+    <property name="FilterBuild" value="${FilterSource}/build" />
+    <property name="BasicFilter" value="BasicFilter.jar" />
+    <property name="BonusFilter" value="BonusFilter.jar" />
+    <property name="tests" value="${basedir}/tests" />
+    <property name="classpath" value="${basedir}/.classpath" />
+    <property name="junit-path" value="${basedir}/lib" />
+
+    <!--================================================-->
+    <!--                    Condition                   -->
+    <!--================================================-->
+    <available file="${basedir}/AUTHORS" property="authors.exists" />
+    <available file="${basedir}/TODO" property="todo.exists" />
+    <available file="${basedir}/README" property="readme.exists" />
+    <condition property="isUnix">
+        <and>
+            <os family="unix" />
+            <not>
+                <os family="mac" />
+            </not>
+        </and>
+    </condition>
+    <condition property="isWin">
+        <os family="windows" />
+    </condition>
+    <condition property="isMac">
+        <os family="mac" />
+    </condition>
+
+    <!--================================================-->
+    <!--           Custom classpath definition          -->
+    <!--================================================-->
+    <path id="custom.classpath">
+        <fileset dir="${lib}">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${src}" />
+        <pathelement location="${build}" />
+        <pathelement location="${java.class.path}" />
+    </path>
+
+    <!--================================================-->
+    <!--                 Custom properties              -->
+    <!--================================================-->
+    <target name="initMac" description="Initialize Mac system" if="isMac">
+        <property name="shell" value="sh" />
+        <property name="exec-option" value="-c" />
+        <!--    <property name="argNeededForMAC" value="-XstartOnFirstThread" /> -->
+        <property name="jar" value="jar" />
+    </target>
+    <target name="initWindows" description="Initialize Windows system" if="isWin">
+        <property name="shell" value="cmd.exe" />
+        <property name="exec-option" value="/c" />
+        <property name="argNeededForMAC" value="" />
+        <property name="jar" value="jar" />
+    </target>
+    <target name="initUnix" description="Initialize Unix system" if="isUnix">
+        <property name="shell" value="sh" />
+        <property name="exec-option" value="-c" />
+        <property name="jar" value="jar" />
+        <property name="argNeededForMAC" value="" />
+    </target>
+    <target name="checkAUTHORS" description="Check if AUTHORS is present" unless="authors.exists">
+        <fail message="You must have an AUTHORS file !" />
+    </target>
+    <target name="checkTODO" description="Check if TODO is present" unless="todo.exists">
+        <fail message="You must have a TODO file !" />
+    </target>
+    <target name="checkREADME" description="Check if README is present" unless="readme.exists">
+        <fail message="You must have a README file !" />
+    </target>
+
+    <!--================================================-->
+    <!--    Initialization: create needed directories   -->
+    <!--================================================-->
+    <target name="init" depends="clean, initMac, initWindows, initUnix" description="Construct needed directories">
+        <echo message="=== Initialization ===" />
+        <mkdir dir="${build}" />
+        <mkdir dir="${doc}" />
+        <mkdir dir="${asset}" />
+        <mkdir dir="${lib}" />
+        <mkdir dir="${filter}" />
+        <mkdir dir="${FilterBuild}" />
+        <mkdir dir="${tests}" />
+        <echo file="${basedir}/AUTHORS" append="false" message="* ${login}${line.separator}" />
+        <echo message="Successfully created all needed directories !" />
+    </target>
+
+    <!--================================================-->
+    <!--              Compile our project               -->
+    <!--================================================-->
+    <target name="compile" depends="init" description="Compile sources">
+        <echo message="=== Compilation of ${src} ===" />
+        <javac srcdir="${src}" destdir="${build}" debug="on" deprecation="on" optimize="off" fork="yes" verbose="yes">
+            <classpath>
+                <path refid="custom.classpath" />
+            </classpath>
+            <include name="${main.class}.java" />
+            <include name="**/*.java" />
+        </javac>
+        <echo message="Successfully compiled in ${build} !" />
+    </target>
+
+    <!--================================================-->
+    <!--               Create the jarfile               -->
+    <!--================================================-->
+    <target name="jar" depends="compile" description="Create the tarball">
+        <delete file="${binary}" />
+        <echo message="=== Creating the jar file ===" />
+        <jar jarfile="${binary}" basedir="${build}">
+            <fileset dir="${build}" includes="*/**" />
+
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}" />
+                <attribute name="Built-By" value="${login}" />
+                <attribute name="Specification-Title" value="${proj}" />
+            </manifest>
+        </jar>
+        <echo message="Successfully created the ${binary} jarfile !" />
+    </target>
+
+    <!--================================================-->
+    <!--              Execute the project               -->
+    <!--================================================-->
+    <target name="execute" depends="jar,filter" description="Execute the project">
+        <echo message="=== Execution ===" />
+        <java jar="${binary}" fork="true">
+
+        </java>
+        <echo message="Execution terminated !" />
+    </target>
+
+    <!--================================================-->
+    <!--          Compile file for the filters          -->
+    <!--================================================-->
+    <target name="compilefilter" depends="init" description="Compile file for the filters">
+        <javac srcdir="${FilterSource}" destdir="${FilterBuild}" debug="on" deprecation="on" optimize="off" fork="yes">
+            <classpath>
+                <path refid="custom.classpath" />
+            </classpath>
+        </javac>
+    </target>
+
+    <!--================================================-->
+    <!--              Create the basic filter           -->
+    <!--================================================-->
+    <target name="filterBasic" depends="compilefilter" description="Create the basic filter">
+        <delete file="${filter}/${BasicFilter}" />
+        <echo message="=== Creating the basic filter ===" />
+        <exec dir="${FilterBuild}" executable="${shell}">
+            <arg line="${exec-option} '${jar} cvf ../../filter/${BasicFilter} filter/basic'" />
+        </exec>
+        <echo message="Successfully created the ${BasicFilter} filter jarfile !" />
+    </target>
+
+    <!--================================================-->
+    <!--             Create the bonus filter            -->
+    <!--================================================-->
+    <target name="filterBonus" depends="compilefilter" description="Create the bonus filter">
+        <delete file="${filter}/${BonusFilter}" />
+        <echo message="=== Creating the bonus filter ===" />
+        <exec dir="${FilterBuild}" executable="${shell}">
+            <arg line="${exec-option} '${jar} cvf ../../filter/${BonusFilter} filter/bonus'" />
+        </exec>
+        <echo message="Successfully created the ${BonusFilter} filter jarfile !" />
+    </target>
+
+    <!--================================================-->
+    <!--              Create all the filters            -->
+    <!--================================================-->
+    <target name="filter" depends="filterBasic, filterBonus" description="Create all the filters">
+    </target>
+
+    <!--================================================-->
+    <!--              Clean the main folder             -->
+    <!--================================================-->
+    <target name="cleanMain" description="Clean the main directory">
+        <echo message="=== Cleaning main directory ===" />
+        <delete dir="${build}" failonerror="false" />
+        <echo message="Main directory successfully cleaned !" />
+    </target>
+
+    <!--================================================-->
+    <!--             Clean the filter folder            -->
+    <!--================================================-->
+    <target name="cleanFilter" description="Clean the filter directory">
+        <echo message="=== Cleaning filter directory ===" />
+        <delete dir="${FilterBuild}" failonerror="false" />
+        <echo message="Filter directory successfully cleaned !" />
+    </target>
+
+    <!--================================================-->
+    <!--               Clean the project                -->
+    <!--================================================-->
+    <target name="clean" depends="cleanMain, cleanFilter" description="Clean all generated directory">
+        <echo message="=== Cleaning project ===" />
+        <delete>
+            <fileset dir="${basedir}" includes="**/*~" />
+            <fileset dir="${basedir}" includes="**/*.class" />
+            <fileset dir="${basedir}" includes="**/*.tmp" />
+            <fileset dir="${basedir}" includes="**/*.log" />
+        </delete>
+        <echo message="Project successfully cleaned !" />
+    </target>
+
+    <!--================================================-->
+    <!--      Clean the project and delete executable   -->
+    <!--================================================-->
+    <target name="distclean" depends="clean" description="Clean binary and directory">
+        <echo message="=== Distcleaning project ===" />
+        <delete file="${binary}" failonerror="false" />
+        <delete file="${filter}/${BasicFilter}" failonerror="false" />
+        <delete file="${filter}/${BonusFilter}" failonerror="false" />
+        <delete dir="${doc}" failonerror="false" />
+        <delete dir="${tests}" failonerror="false" />
+        <delete dir="${bin}" failonerror="false" />
+        <delete dir="${build}" failonerror="false" />
+        <delete dir="${filter}" failonerror="false" />
+
+        <delete>
+            <fileset dir="${basedir}" includes="**/*.tar" />
+            <fileset dir="${basedir}" includes="**/*.gz" />
+            <fileset dir="${basedir}" includes="**/*.tgz" />
+            <fileset dir="${basedir}" includes="**/*.bz2" />
+            <fileset dir="${basedir}" includes="**/*.zip" />
+            <fileset dir="${basedir}" includes="**/*.rar" />
+        </delete>
+        <echo message="Project successfully distcleaned !" />
+    </target>
+
+    <!--================================================-->
+    <!--      Generate the JavaDoc documentation        -->
+    <!--================================================-->
+    <target name="doc" description="Generate documentation">
+        <echo message="=== Creating javadoc documentation ===" />
+        <javadoc sourcepath="${src}" destdir="${doc}">
+            <fileset dir="${src}" defaultexcludes="yes">
+                <include name="**" />
+            </fileset>
+        </javadoc>
+        <echo message="Javadoc documentation created in ${doc} !" />
+    </target>
+
+    <!--================================================-->
+    <!--                Create the tarball              -->
+    <!--================================================-->
+    <target name="dist" depends="distclean" description="Create the tarball">
+        <tar longfile="gnu" destfile="${tarball}" compression="${compression.mode}">
+            <tarfileset dir="${basedir}" mode="700" username="${login}" prefix="${proj_fullname}/">
+                <include name="**/*" />
+                <exclude name=".*" />
+                <exclude name="**/.svn" />
+                <exclude name="**/*.gz" />
+                <exclude name="**/*.bz2" />
+                <exclude name="**/*.tgz" />
+                <exclude name="**/*.tar" />
+                <exclude name="**/*.zip" />
+                <exclude name="**/*.rar" />
+            </tarfileset>
+        </tar>
+    </target>
+
+    <!--================================================-->
+    <!--        Create the tarball (alias of dist)      -->
+    <!--================================================-->
+    <target name="tar" depends="dist" description="Create the tarball">
+    </target>
+
+    <!--================================================-->
+    <!--        Custom classpath definition    -->
+    <!--================================================-->
+    <!-- junit-path = /u/prof/yaka/public/junit-4.4.jar -->
+
+    <path id="custom.classpath">
+        <fileset dir="${junit-path}">
+            <include name="*.jar" />
+        </fileset>
+        <pathelement location="${src}" />
+        <pathelement location="${junit-path}" />
+        <pathelement location="${build}" />
+        <pathelement location="${java.class.path}" />
+    </path>
+
+
+    <!--================================================-->
+    <!--          Launch Junit test         -->
+    <!--================================================-->
+    <target name="check" depends="compile, compile-test" description="Launch Junit test">
+        <junit printsummary="yes" haltonfailure="no">
+            <formatter type="xml" />
+            <classpath refid="custom.classpath" />
+            <batchtest fork="yes" todir="${tests}">
+                <fileset dir="${build}">
+                    <include name="**/*Test.class" />
+                    <exclude name="**/AllTests.class" />
+                </fileset>
+            </batchtest>
+        </junit>
+        <junitreport>
+            <fileset dir="${tests}">
+                <include name="TEST-*.xml" />
+            </fileset>
+            <report format="frames" todir="${tests}" />
+            <!-- <report format="noframes" styledir="xslt"/> -->
+        </junitreport>
+    </target>
+
+    <!--================================================-->
+    <!--          Create dir check and compile tests    -->
+    <!--================================================-->
+    <target name="compile-test">
+        <mkdir dir="classes.dir" />
+        <javac srcdir="${tests}" destdir="classes.dir" />
+    </target>
+</project>
