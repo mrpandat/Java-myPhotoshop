@@ -1,12 +1,12 @@
 package main;
 
 import javax.swing.*;
-import GUI.MyLayoutExample;
+import GUI.MyLayout;
 
 public class Main {
 
     public static void main(String[] args) {
-        MyLayoutExample layout = new MyLayoutExample();
+        MyLayout layout = new MyLayout();
 
         final JPanel panel = layout.getContent();
         final String title = layout.getName();

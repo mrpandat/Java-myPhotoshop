@@ -3,7 +3,7 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyLayoutExample implements LayoutExample {
+public class MyLayout implements LayoutExample {
     @Override
     public JPanel getContent() {/*
         JPanel mainPanel = new JPanel();
@@ -31,30 +31,49 @@ public class MyLayoutExample implements LayoutExample {
         panelUser.add(panelToolbox);
         panelMenu.setSize(new Dimension(100,100));
         */
-        JPanel mainPanel = new JPanel();
+         = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
-        JPanel panelTop = new JPanel();
-        panelTop.setBackground(new Color(0,0,255));
-        panelTop.setPreferredSize(new Dimension(0,50));
+        /****** MENU *****/
+        JMenuBar panelTop = new MyMenu(mainPanel);
+
+
+        /**** PANEL ****/
+
+//        JPanel panelTop = new JPanel();
+        panelTop.setBackground(new Color(200, 200, 200));
+        panelTop.setPreferredSize(new Dimension(0, 25));
         mainPanel.add(panelTop, BorderLayout.PAGE_START);
 
         JPanel panelLeft = new JPanel();
-        panelLeft.setBackground(new Color(0,255,0));
         panelLeft.setPreferredSize(new Dimension(200, 100));
         mainPanel.add(panelLeft, BorderLayout.CENTER);
 
         JPanel panelRight = new JPanel();
-        panelRight.setPreferredSize(new Dimension(50,0));
+        panelRight.setPreferredSize(new Dimension(50, 0));
 
-        panelRight.setBackground(new Color(255,0,0));
+        panelRight.setBackground(new Color(255, 0, 0));
         mainPanel.add(panelRight, BorderLayout.LINE_START);
+
+        JPanel panelHistory = new JPanel();
+        panelHistory.setPreferredSize(new Dimension(50, 0));
+
+        panelHistory.setBackground(new Color(125, 125, 125));
+        mainPanel.add(panelHistory, BorderLayout.LINE_END);
+
+
+        JPanel panelStatus = new JPanel();
+        panelStatus.setPreferredSize(new Dimension(0, 25));
+
+        panelStatus.setBackground(new Color(125, 0, 125));
+        mainPanel.add(panelStatus, BorderLayout.PAGE_END);
+
 
         return mainPanel;
     }
 
     @Override
     public String getName() {
-        return "Grid Layout";
+        return "MyPhotoshop by treibe_a";
     }
 }
