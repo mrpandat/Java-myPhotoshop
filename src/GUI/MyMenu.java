@@ -8,10 +8,12 @@ import java.awt.event.KeyEvent;
 
 public class MyMenu extends JMenuBar {
     public JPanel mainPanel;
+    public JTabbedPane panelDraw;
     public JFileChooser fc;
 
-    MyMenu(JPanel mainPanel) {
+    MyMenu(JPanel mainPanel, JTabbedPane panelDraw) {
         this.mainPanel = mainPanel;
+        this.panelDraw = panelDraw;
         this.fc = new JFileChooser();
 
         generateFileMenu();
@@ -29,16 +31,17 @@ public class MyMenu extends JMenuBar {
         this.add(file);
 
         JMenuItem mi = new JMenuItem();
-        mi.setText("New..");
+        mi.setText("Open..");
         mi.setMnemonic(KeyEvent.VK_N);
         file.add(mi);
-        fc = new JFileChooser(".");
+        fc = new JFileChooser("~");
 
         mi.addActionListener(
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (fc.showOpenDialog(mainPanel) == JFileChooser.APPROVE_OPTION) {
-
+                            panelDraw.addTab(fc.getSelectedFile().getName(), new ImagePanel(fc.getSelectedFile()));
+                            panelDraw.setSelectedIndex(panelDraw.getTabCount() - 1);
                         }
                     }
                 }
@@ -53,6 +56,60 @@ public class MyMenu extends JMenuBar {
         mi.setText("Save As..");
         mi.setMnemonic(KeyEvent.VK_D);
         file.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Close..");
+        mi.setMnemonic(KeyEvent.VK_C);
+        file.add(mi);
+
+        mi.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (panelDraw.getTabCount() > 0) {
+                            panelDraw.remove(panelDraw.getSelectedIndex());
+                        }
+                    }
+                }
+        );
+
+
+        mi = new JMenuItem();
+        mi.setText("Close others..");
+        mi.setMnemonic(KeyEvent.VK_O);
+        file.add(mi);
+
+        mi.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (panelDraw.getTabCount() > 0) {
+                            int i = 0;
+                            while (panelDraw.getTabCount() != 1) {
+                                if (panelDraw.getSelectedIndex() != i) {
+                                    panelDraw.removeTabAt(i);
+                                }
+                                i++;
+                            }
+                        }
+                    }
+                }
+        );
+
+        mi = new JMenuItem();
+        mi.setText("Close All..");
+        mi.setMnemonic(KeyEvent.VK_C);
+        file.add(mi);
+
+        mi.addActionListener(
+                new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+                        if (panelDraw.getTabCount() > 0) {
+                            panelDraw.removeAll();
+                            
+                        }
+                    }
+                }
+        );
+
     }
 
     private void generateEditMenu() {

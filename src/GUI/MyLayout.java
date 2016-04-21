@@ -2,40 +2,22 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public class MyLayout implements LayoutExample {
     @Override
-    public JPanel getContent() {/*
+    public JPanel getContent() {
+
         JPanel mainPanel = new JPanel();
-        mainPanel.setBackground(new Color(185));
-
-        JPanel panelMenu = new JPanel();
-        panelMenu.setBackground(new Color(255,90,90));
-
-        JPanel panelUser = new JPanel();
-        panelUser.setBackground(new Color(142,142,142));
-
-        JPanel panelDraw = new JPanel();
-        panelDraw.setBackground(new Color(10,200,255));
-
-        JPanel panelToolbox = new JPanel();
-        panelToolbox.setBackground(new Color(80,80,80));
-
-        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
-        panelMenu.setLayout(new GridLayout());
-        panelUser.setLayout(new BoxLayout(panelUser,BoxLayout.X_AXIS));
-
-        mainPanel.add(panelMenu);
-        mainPanel.add(panelUser);
-        panelUser.add(panelDraw);
-        panelUser.add(panelToolbox);
-        panelMenu.setSize(new Dimension(100,100));
-        */
-         = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
+
+        JTabbedPane panelDraw = new JTabbedPane();
+        panelDraw.setPreferredSize(new Dimension(200, 100));
+        mainPanel.add(panelDraw, BorderLayout.CENTER);
+
         /****** MENU *****/
-        JMenuBar panelTop = new MyMenu(mainPanel);
+        JMenuBar panelTop = new MyMenu(mainPanel, panelDraw);
 
 
         /**** PANEL ****/
@@ -45,9 +27,6 @@ public class MyLayout implements LayoutExample {
         panelTop.setPreferredSize(new Dimension(0, 25));
         mainPanel.add(panelTop, BorderLayout.PAGE_START);
 
-        JPanel panelLeft = new JPanel();
-        panelLeft.setPreferredSize(new Dimension(200, 100));
-        mainPanel.add(panelLeft, BorderLayout.CENTER);
 
         JPanel panelRight = new JPanel();
         panelRight.setPreferredSize(new Dimension(50, 0));
@@ -67,7 +46,6 @@ public class MyLayout implements LayoutExample {
 
         panelStatus.setBackground(new Color(125, 0, 125));
         mainPanel.add(panelStatus, BorderLayout.PAGE_END);
-
 
         return mainPanel;
     }
