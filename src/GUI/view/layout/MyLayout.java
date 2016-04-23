@@ -1,10 +1,17 @@
-package GUI;
+package GUI.view.layout;
+
+import GUI.model.MainModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 
 public class MyLayout implements LayoutExample {
+    public MainModel model;
+
+    public MyLayout(MainModel model) {
+        this.model = model;
+    }
+
     @Override
     public JPanel getContent() {
 
@@ -17,7 +24,7 @@ public class MyLayout implements LayoutExample {
         mainPanel.add(panelDraw, BorderLayout.CENTER);
 
         /****** MENU *****/
-        JMenuBar panelTop = new MyMenu(mainPanel, panelDraw);
+        JMenuBar panelTop = new MyMenu(mainPanel, panelDraw, this.model);
 
 
         /**** PANEL ****/

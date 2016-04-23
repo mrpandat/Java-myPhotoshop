@@ -1,4 +1,6 @@
-package GUI;
+package GUI.view.layout;
+
+import GUI.model.MainModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,11 +12,14 @@ public class MyMenu extends JMenuBar {
     public JPanel mainPanel;
     public JTabbedPane panelDraw;
     public JFileChooser fc;
+    public MainModel model;
 
-    MyMenu(JPanel mainPanel, JTabbedPane panelDraw) {
+
+    MyMenu(JPanel mainPanel, JTabbedPane panelDraw, MainModel model) {
         this.mainPanel = mainPanel;
         this.panelDraw = panelDraw;
         this.fc = new JFileChooser();
+        this.model = model;
 
         generateFileMenu();
         generateEditMenu();
@@ -48,7 +53,7 @@ public class MyMenu extends JMenuBar {
         );
 
         mi = new JMenuItem();
-        mi.setText("Save..");
+        mi.setText("Save");
         mi.setMnemonic(KeyEvent.VK_S);
         file.add(mi);
 
@@ -58,7 +63,7 @@ public class MyMenu extends JMenuBar {
         file.add(mi);
 
         mi = new JMenuItem();
-        mi.setText("Close..");
+        mi.setText("Close");
         mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);
 
@@ -74,7 +79,7 @@ public class MyMenu extends JMenuBar {
 
 
         mi = new JMenuItem();
-        mi.setText("Close others..");
+        mi.setText("Close others");
         mi.setMnemonic(KeyEvent.VK_O);
         file.add(mi);
 
@@ -95,7 +100,7 @@ public class MyMenu extends JMenuBar {
         );
 
         mi = new JMenuItem();
-        mi.setText("Close All..");
+        mi.setText("Close All");
         mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);
 
@@ -104,7 +109,7 @@ public class MyMenu extends JMenuBar {
                     public void actionPerformed(ActionEvent e) {
                         if (panelDraw.getTabCount() > 0) {
                             panelDraw.removeAll();
-                            
+
                         }
                     }
                 }

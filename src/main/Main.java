@@ -1,7 +1,11 @@
 package main;
 
+import GUI.controller.MainController;
+import GUI.model.MainModel;
+import GUI.view.MainView;
+import GUI.view.layout.MyLayout;
+
 import javax.swing.*;
-import GUI.MyLayout;
 
 public class Main {
 
@@ -10,7 +14,11 @@ public class Main {
 
         final JPanel panel = layout.getContent();
         final String title = layout.getName();
+        MainModel imgmodel = new MainModel();
+        MainView imageview = new MainView(imgmodel,layout);
+        MainController imgctrl = new MainController(imgmodel,imageview);
 
+        /*
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(title);
             frame.setContentPane(panel);
@@ -18,5 +26,6 @@ public class Main {
             frame.setVisible(true);
             frame.pack();
         });
+        */
     }
 }
