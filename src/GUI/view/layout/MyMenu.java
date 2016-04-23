@@ -34,7 +34,7 @@ public class MyMenu extends JMenuBar {
         this.add(file);
 
         JMenuItem mi = new JMenuItem();
-        mi.setText("Open..");
+        mi.setText("Open");
         mi.setMnemonic(KeyEvent.VK_N);
         file.add(mi);
         fc = new JFileChooser("~");
@@ -67,13 +67,14 @@ public class MyMenu extends JMenuBar {
         file.add(mi);
 
         mi.addActionListener(
+                controller/*
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (panelDraw.getTabCount() > 0) {
                             panelDraw.remove(panelDraw.getSelectedIndex());
                         }
                     }
-                }
+                }*/
         );
 
 
@@ -121,16 +122,10 @@ public class MyMenu extends JMenuBar {
 
         JMenu edit = new JMenu();
         edit.setText("Edit");
-        edit.setMnemonic(KeyEvent.VK_E);
         this.add(edit);
 
         JMenuItem mi = new JMenuItem();
-        mi.setText("Open..");
-        mi.setMnemonic(KeyEvent.VK_O);
-        edit.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Undo..");
+        mi.setText("Undo");
         mi.setMnemonic(KeyEvent.VK_U);
         edit.add(mi);
 

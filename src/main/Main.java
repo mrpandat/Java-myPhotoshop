@@ -11,10 +11,8 @@ public class Main {
 
     public static void main(String[] args) {
 
-
-        MainModel model = new MainModel();
-        MainView view = new MainView(model);
-        MainController controller = new MainController(model, view);
+        MainView view = new MainView();
+        MainController controller = new MainController(view);
 
         view.addActionsListeners(controller);
         final JPanel panel = view.getContent();

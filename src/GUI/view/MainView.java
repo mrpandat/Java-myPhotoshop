@@ -10,29 +10,31 @@ import java.util.Observer;
 
 public class MainView extends JFrame implements Observer {
     private MyLayout layout;
-    private JPanel panel;
-    private MainModel img;
+    private MainController controller;
 
-    public MainView(MainModel m ) {
-        this.img = m;
-        this.img.addObserver(this);
+    public MainView() {
         this.layout = new MyLayout();
+        MainModel.getInstance().addObserver(this);
     }
 
     public void addActionsListeners(MainController controller) {
+        this.controller = controller;
         this.layout.generateLayout(controller);
-        this.panel = this.layout.getContent();
+        MainModel.getInstance().mainPanel = this.layout.getContent();
     }
 
     public JPanel getContent() {
         return this.layout.getContent();
     }
+
     public String getTitle() {
         return this.layout.getName();
     }
 
     @Override
     public void update(Observable o, Object arg) {
+        this.layout.generateLayout(this.controller);
+        MainModel.getInstance().mainPanel = this.layout.getContent();
         return;
     }
 }
