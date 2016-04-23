@@ -1,6 +1,6 @@
 package GUI.view.layout;
 
-import GUI.model.MainModel;
+import GUI.controller.MainController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,21 +12,19 @@ public class MyMenu extends JMenuBar {
     public JPanel mainPanel;
     public JTabbedPane panelDraw;
     public JFileChooser fc;
-    public MainModel model;
 
-
-    MyMenu(JPanel mainPanel, JTabbedPane panelDraw, MainModel model) {
+    MyMenu(JPanel mainPanel, JTabbedPane panelDraw) {
         this.mainPanel = mainPanel;
         this.panelDraw = panelDraw;
         this.fc = new JFileChooser();
-        this.model = model;
-
-        generateFileMenu();
-        generateEditMenu();
-        generateFiltersMenu();
     }
 
-    private void generateFileMenu() {
+    public void generateMenus(MainController controller) {
+        generateFileMenu(controller);
+        generateEditMenu(controller);
+        generateFiltersMenu(controller);
+    }
+    private void generateFileMenu(MainController controller) {
 
         /****** FILE MENU *****/
         JMenu file = new JMenu();
@@ -42,6 +40,7 @@ public class MyMenu extends JMenuBar {
         fc = new JFileChooser("~");
 
         mi.addActionListener(
+                controller/*
                 new ActionListener() {
                     public void actionPerformed(ActionEvent e) {
                         if (fc.showOpenDialog(mainPanel) == JFileChooser.APPROVE_OPTION) {
@@ -49,7 +48,7 @@ public class MyMenu extends JMenuBar {
                             panelDraw.setSelectedIndex(panelDraw.getTabCount() - 1);
                         }
                     }
-                }
+                }*/
         );
 
         mi = new JMenuItem();
@@ -114,10 +113,10 @@ public class MyMenu extends JMenuBar {
                     }
                 }
         );
-
+        return;
     }
 
-    private void generateEditMenu() {
+    private void generateEditMenu(MainController controller) {
         /****** EDIT MENU *****/
 
         JMenu edit = new JMenu();
@@ -145,7 +144,7 @@ public class MyMenu extends JMenuBar {
         edit.add(mi);
     }
 
-    private void generateFiltersMenu() {
+    private void generateFiltersMenu(MainController controller) {
         /****** FILTERS MENU *****/
 
         JMenu filters = new JMenu();

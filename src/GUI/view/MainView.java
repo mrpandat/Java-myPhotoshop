@@ -1,5 +1,6 @@
 package GUI.view;
 
+import GUI.controller.MainController;
 import GUI.model.MainModel;
 import GUI.view.layout.MyLayout;
 
@@ -15,9 +16,19 @@ public class MainView extends JFrame implements Observer {
     public MainView(MainModel m ) {
         this.img = m;
         this.img.addObserver(this);
-        this.layout = new MyLayout(this.img);
-        this.panel = layout.getContent();
+        this.layout = new MyLayout();
+    }
 
+    public void addActionsListeners(MainController controller) {
+        this.layout.generateLayout(controller);
+        this.panel = this.layout.getContent();
+    }
+
+    public JPanel getContent() {
+        return this.layout.getContent();
+    }
+    public String getTitle() {
+        return this.layout.getName();
     }
 
     @Override

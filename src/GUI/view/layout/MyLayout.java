@@ -1,21 +1,20 @@
 package GUI.view.layout;
 
-import GUI.model.MainModel;
+import GUI.controller.MainController;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MyLayout implements LayoutExample {
-    public MainModel model;
 
-    public MyLayout(MainModel model) {
-        this.model = model;
+    private JPanel mainPanel;
+
+    public MyLayout() {
+        this.mainPanel = new JPanel();
     }
 
-    @Override
-    public JPanel getContent() {
 
-        JPanel mainPanel = new JPanel();
+    public void generateLayout(MainController controller) {
         mainPanel.setLayout(new BorderLayout());
 
 
@@ -24,12 +23,11 @@ public class MyLayout implements LayoutExample {
         mainPanel.add(panelDraw, BorderLayout.CENTER);
 
         /****** MENU *****/
-        JMenuBar panelTop = new MyMenu(mainPanel, panelDraw, this.model);
-
+        MyMenu panelTop = new MyMenu(mainPanel, panelDraw);
+        panelTop.generateMenus(controller);
 
         /**** PANEL ****/
 
-//        JPanel panelTop = new JPanel();
         panelTop.setBackground(new Color(200, 200, 200));
         panelTop.setPreferredSize(new Dimension(0, 25));
         mainPanel.add(panelTop, BorderLayout.PAGE_START);
@@ -53,7 +51,11 @@ public class MyLayout implements LayoutExample {
 
         panelStatus.setBackground(new Color(125, 0, 125));
         mainPanel.add(panelStatus, BorderLayout.PAGE_END);
+        return;
+    }
 
+    @Override
+    public JPanel getContent() {
         return mainPanel;
     }
 

@@ -10,15 +10,17 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        MyLayout layout = new MyLayout();
 
-        final JPanel panel = layout.getContent();
-        final String title = layout.getName();
-        MainModel imgmodel = new MainModel();
-        MainView imageview = new MainView(imgmodel,layout);
-        MainController imgctrl = new MainController(imgmodel,imageview);
 
-        /*
+        MainModel model = new MainModel();
+        MainView view = new MainView(model);
+        MainController controller = new MainController(model, view);
+
+        view.addActionsListeners(controller);
+        final JPanel panel = view.getContent();
+        final String title = view.getName();
+
+
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame(title);
             frame.setContentPane(panel);
@@ -26,6 +28,5 @@ public class Main {
             frame.setVisible(true);
             frame.pack();
         });
-        */
     }
 }

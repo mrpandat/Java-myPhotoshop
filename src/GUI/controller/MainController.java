@@ -20,6 +20,7 @@ public class MainController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        System.out.println("receive event !!!");
         System.out.println(e.getSource());
         return;
     }
