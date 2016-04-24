@@ -4,6 +4,7 @@ import GUI.view.layout.ImagePanel;
 import GUI.view.layout.MyLayout;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
 import java.util.Observable;
 
 
@@ -23,13 +24,28 @@ public class MainModel extends Observable {
         return INSTANCE;
     }
 
-
-    public void performOpen() {
-        JFileChooser fc = new JFileChooser("~");
-        if (fc.showOpenDialog(mainPanel) == JFileChooser.APPROVE_OPTION) {
-            panelDraw.addTab(fc.getSelectedFile().getName(), new ImagePanel(fc.getSelectedFile()));
-            panelDraw.setSelectedIndex(panelDraw.getTabCount() - 1);
-        }
-        notifyObservers();
+    public JPanel getMainPanel() {
+        return mainPanel;
     }
+
+    public void setMainPanel(JPanel mainPanel) {
+        this.mainPanel = mainPanel;
+    }
+
+    public JTabbedPane getPanelDraw() {
+        return panelDraw;
+    }
+
+    public void setPanelDraw(JTabbedPane panelDraw) {
+        this.panelDraw = panelDraw;
+    }
+
+    public ImagePanel getImg() {
+        return (ImagePanel)this.panelDraw.getComponentAt(panelDraw.getSelectedIndex());
+    }
+
+    public void setImg(ImagePanel img) {
+        this.panelDraw.setComponentAt(panelDraw.getSelectedIndex(), img);
+    }
+
 }

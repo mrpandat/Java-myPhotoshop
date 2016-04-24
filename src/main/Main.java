@@ -16,7 +16,7 @@ public class Main {
 
         view.addActionsListeners(controller);
         final JPanel panel = view.getContent();
-        final String title = view.getName();
+        final String title = "treibe_a";
 
 
         SwingUtilities.invokeLater(() -> {

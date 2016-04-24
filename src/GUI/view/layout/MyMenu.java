@@ -1,6 +1,7 @@
 package GUI.view.layout;
 
 import GUI.controller.MainController;
+import GUI.model.MainModel;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -24,6 +25,7 @@ public class MyMenu extends JMenuBar {
         generateEditMenu(controller);
         generateFiltersMenu(controller);
     }
+
     private void generateFileMenu(MainController controller) {
 
         /****** FILE MENU *****/
@@ -33,23 +35,14 @@ public class MyMenu extends JMenuBar {
         file.setMnemonic(KeyEvent.VK_F);
         this.add(file);
 
+
         JMenuItem mi = new JMenuItem();
         mi.setText("Open");
         mi.setMnemonic(KeyEvent.VK_N);
         file.add(mi);
         fc = new JFileChooser("~");
 
-        mi.addActionListener(
-                controller/*
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (fc.showOpenDialog(mainPanel) == JFileChooser.APPROVE_OPTION) {
-                            panelDraw.addTab(fc.getSelectedFile().getName(), new ImagePanel(fc.getSelectedFile()));
-                            panelDraw.setSelectedIndex(panelDraw.getTabCount() - 1);
-                        }
-                    }
-                }*/
-        );
+        mi.addActionListener(e -> controller.menuController.performOpen());
 
         mi = new JMenuItem();
         mi.setText("Save");
@@ -65,17 +58,8 @@ public class MyMenu extends JMenuBar {
         mi.setText("Close");
         mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);
+        mi.addActionListener(e -> controller.menuController.performClose());
 
-        mi.addActionListener(
-                controller/*
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (panelDraw.getTabCount() > 0) {
-                            panelDraw.remove(panelDraw.getSelectedIndex());
-                        }
-                    }
-                }*/
-        );
 
 
         mi = new JMenuItem();
@@ -83,37 +67,15 @@ public class MyMenu extends JMenuBar {
         mi.setMnemonic(KeyEvent.VK_O);
         file.add(mi);
 
-        mi.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (panelDraw.getTabCount() > 0) {
-                            int i = 0;
-                            while (panelDraw.getTabCount() != 1) {
-                                if (panelDraw.getSelectedIndex() != i) {
-                                    panelDraw.removeTabAt(i);
-                                }
-                                i++;
-                            }
-                        }
-                    }
-                }
-        );
+        mi.addActionListener(e-> controller.menuController.performCloseOthers());
 
         mi = new JMenuItem();
         mi.setText("Close All");
         mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);
 
-        mi.addActionListener(
-                new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        if (panelDraw.getTabCount() > 0) {
-                            panelDraw.removeAll();
+        mi.addActionListener(e-> controller.menuController.performCloseAll());
 
-                        }
-                    }
-                }
-        );
         return;
     }
 
@@ -148,7 +110,9 @@ public class MyMenu extends JMenuBar {
         this.add(filters);
 
         JMenuItem mi = new JMenuItem();
-        mi.setText("My Filter");
+        mi.setText("All blue");
+        mi.addActionListener(e-> controller.filtersController.performAllBlue());
+
         filters.add(mi);
     }
 }

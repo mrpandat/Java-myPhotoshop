@@ -6,7 +6,7 @@ import GUI.model.MainModel;
 import javax.swing.*;
 import java.awt.*;
 
-public class MyLayout implements LayoutExample {
+public class MyLayout {
 
 
     public void generateLayout(MainController controller) {
@@ -47,12 +47,10 @@ public class MyLayout implements LayoutExample {
         return;
     }
 
-    @Override
     public JPanel getContent() {
         return  MainModel.getInstance().mainPanel;
     }
 
-    @Override
     public String getName() {
         return "MyPhotoshop by treibe_a";
     }
