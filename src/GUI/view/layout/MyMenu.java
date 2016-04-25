@@ -112,7 +112,16 @@ public class MyMenu extends JMenuBar {
         JMenuItem mi = new JMenuItem();
         mi.setText("All blue");
         mi.addActionListener(e-> controller.filtersController.performAllBlue());
+        filters.add(mi);
 
+        mi = new JMenuItem();
+        mi.setText("Very Long");
+        mi.addActionListener(e-> controller.filtersController.performVeryLong());
+        filters.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Rotate Right");
+        mi.addActionListener(e-> controller.filtersController.PerformRotateRight());
         filters.add(mi);
     }
 }

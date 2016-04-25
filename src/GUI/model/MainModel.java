@@ -5,6 +5,7 @@ import GUI.view.layout.MyLayout;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
 import java.util.Observable;
 
 
@@ -44,8 +45,10 @@ public class MainModel extends Observable {
         return (ImagePanel)this.panelDraw.getComponentAt(panelDraw.getSelectedIndex());
     }
 
-    public void setImg(ImagePanel img) {
-        this.panelDraw.setComponentAt(panelDraw.getSelectedIndex(), img);
+    public void setImg(BufferedImage img) {
+        getImg().setImage(img);
+        notifyObservers();
+        setChanged();
     }
 
 }
