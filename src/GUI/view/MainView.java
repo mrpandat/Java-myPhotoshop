@@ -33,10 +33,7 @@ public class MainView extends JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        this.layout.generateLayout(this.controller);
-        MainModel.getInstance().mainPanel = this.layout.getContent();
         MainModel.getInstance().getImg().repaint();
-
         return;
     }
 }

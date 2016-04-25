@@ -25,22 +25,6 @@ public class MainModel extends Observable {
         return INSTANCE;
     }
 
-    public JPanel getMainPanel() {
-        return mainPanel;
-    }
-
-    public void setMainPanel(JPanel mainPanel) {
-        this.mainPanel = mainPanel;
-    }
-
-    public JTabbedPane getPanelDraw() {
-        return panelDraw;
-    }
-
-    public void setPanelDraw(JTabbedPane panelDraw) {
-        this.panelDraw = panelDraw;
-    }
-
     public ImagePanel getImg() {
         return (ImagePanel)this.panelDraw.getComponentAt(panelDraw.getSelectedIndex());
     }
