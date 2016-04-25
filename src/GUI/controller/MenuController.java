@@ -4,6 +4,8 @@ import GUI.model.MainModel;
 import GUI.view.layout.ImagePanel;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import java.io.File;
 
 /**
  * Created by pandat on 24/04/2016.
@@ -13,9 +15,32 @@ public class MenuController {
 
     public void performOpen() {
         JFileChooser fc = new JFileChooser("~");
+        fc.removeChoosableFileFilter(fc.getFileFilter() );
+        fc.setMultiSelectionEnabled(true);
+        fc.setFileFilter(new FileFilter() {
+                                      public boolean accept(File f) {
+                                          if (f.isDirectory()) {
+                                              return true;
+                                          } else if (
+                                                  f.getName().endsWith(".bmp") ||
+                                                          f.getName().endsWith(".jpg") ||
+                                                          f.getName().endsWith(".gif") ||
+                                                          f.getName().endsWith(".png")) {
+                                              return true;
+                                          } else return false;
+                                      }
+
+                                      public String getDescription() {
+                                          return "Images Files";
+                                      }
+                                  }
+        );
         if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
-            model.panelDraw.addTab(fc.getSelectedFile().getName(), new ImagePanel(fc.getSelectedFile()));
-            model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+            for (File file : fc.getSelectedFiles()) {
+                model.panelDraw.addTab(file.getName(), new ImagePanel(file));
+                model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+            }
+
         }
 
         model.notifyObservers();
