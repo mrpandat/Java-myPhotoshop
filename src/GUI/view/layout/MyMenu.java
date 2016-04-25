@@ -123,5 +123,10 @@ public class MyMenu extends JMenuBar {
         mi.setText("Rotate Right");
         mi.addActionListener(e-> controller.filtersController.PerformRotateRight());
         filters.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Reverse");
+        mi.addActionListener(e-> controller.filtersController.PerformReverse());
+        filters.add(mi);
     }
 }

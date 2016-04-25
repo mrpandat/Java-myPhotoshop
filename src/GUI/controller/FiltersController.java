@@ -3,6 +3,7 @@ package GUI.controller;
 import GUI.model.MainModel;
 import com.sun.org.apache.bcel.internal.generic.ALOAD;
 import filter.basic.AllBlue;
+import filter.basic.Reverse;
 import filter.basic.RotateRight;
 import filter.basic.VeryLong;
 
@@ -25,6 +26,11 @@ public class FiltersController {
 
     public void PerformRotateRight() {
         RotateRight a = new RotateRight();
+        model.setImg(a.perform(this.model.getImg().getImage()));
+        model.notifyObservers();
+    }
+    public void PerformReverse() {
+        Reverse a = new Reverse();
         model.setImg(a.perform(this.model.getImg().getImage()));
         model.notifyObservers();
     }
