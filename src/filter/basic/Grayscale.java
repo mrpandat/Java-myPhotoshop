@@ -9,15 +9,15 @@ public class Grayscale implements Filter {
     public BufferedImage perform(BufferedImage img) {
 
         int c, avg;
-
-        BufferedImage res = new BufferedImage(img.getWidth(), img.getHeight(), img.getType());
         int width = img.getWidth();
         int height = img.getHeight();
+        BufferedImage res = new BufferedImage( width,height, img.getType());
 
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height ; j++) {
                 c = img.getRGB(i, j);
-                
+
                 //calculate the average color of the pixel
                 avg = (((c >> 16) & 0xff) + ((c >> 8) & 0xff) + (c & 0xff)) / 3;
                 //replace the rgb value with avg value

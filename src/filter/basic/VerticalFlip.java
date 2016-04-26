@@ -4,12 +4,12 @@ import filter.Filter;
 
 import java.awt.image.BufferedImage;
 
-public class Reverse implements Filter {
+public class VerticalFlip implements Filter {
     @Override
     public BufferedImage perform(BufferedImage img) {
         int w = img.getWidth();
         int h = img.getHeight();
-        BufferedImage res = new BufferedImage(h, w, img.getType());
+        BufferedImage res = new BufferedImage(w,h, img.getType());
         for (int i = 0; i < img.getWidth(); i++)
             for (int j = 0; j < img.getHeight() / 2; j++) {
                 res.setRGB(i, j, img.getRGB(i, img.getHeight() - 1 - j));
@@ -20,6 +20,6 @@ public class Reverse implements Filter {
 
     @Override
     public String getName() {
-        return "Reverse";
+        return "Vertical Flip";
     }
 }
