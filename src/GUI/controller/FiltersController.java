@@ -37,4 +37,10 @@ public class FiltersController {
         model.setImg(a.perform(this.model.getImg().getImage()));
         model.notifyObservers();
     }
+
+    public void PerformGrayscale() {
+        Grayscale a = new Grayscale();
+        model.setImg(a.perform(this.model.getImg().getImage()));
+        model.notifyObservers();
+    }
 }

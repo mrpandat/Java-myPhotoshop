@@ -133,5 +133,10 @@ public class MyMenu extends JMenuBar {
         mi.setText("Binary");
         mi.addActionListener(e-> controller.filtersController.PerformBinary());
         filters.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Grayscale");
+        mi.addActionListener(e-> controller.filtersController.PerformGrayscale());
+        filters.add(mi);
     }
 }
