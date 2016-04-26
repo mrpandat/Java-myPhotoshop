@@ -128,5 +128,10 @@ public class MyMenu extends JMenuBar {
         mi.setText("Reverse");
         mi.addActionListener(e-> controller.filtersController.PerformReverse());
         filters.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Binary");
+        mi.addActionListener(e-> controller.filtersController.PerformBinary());
+        filters.add(mi);
     }
 }

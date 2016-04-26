@@ -2,10 +2,7 @@ package GUI.controller;
 
 import GUI.model.MainModel;
 import com.sun.org.apache.bcel.internal.generic.ALOAD;
-import filter.basic.AllBlue;
-import filter.basic.Reverse;
-import filter.basic.RotateRight;
-import filter.basic.VeryLong;
+import filter.basic.*;
 
 public class FiltersController {
     public MainModel model = MainModel.getInstance();
@@ -31,6 +28,12 @@ public class FiltersController {
     }
     public void PerformReverse() {
         Reverse a = new Reverse();
+        model.setImg(a.perform(this.model.getImg().getImage()));
+        model.notifyObservers();
+    }
+
+    public void PerformBinary() {
+        Binary a = new Binary();
         model.setImg(a.perform(this.model.getImg().getImage()));
         model.notifyObservers();
     }
