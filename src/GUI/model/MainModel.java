@@ -1,10 +1,7 @@
 package GUI.model;
 
 import GUI.view.layout.ImagePanel;
-import GUI.view.layout.MyLayout;
-
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
@@ -26,7 +23,7 @@ public class MainModel extends Observable {
     }
 
     public ImagePanel getImg() {
-        return (ImagePanel)this.panelDraw.getComponentAt(panelDraw.getSelectedIndex());
+        return (ImagePanel)((JPanel)this.panelDraw.getSelectedComponent()).getComponents()[0];
     }
 
     public void setImg(BufferedImage img) {

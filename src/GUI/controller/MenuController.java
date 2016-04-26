@@ -2,6 +2,7 @@ package GUI.controller;
 
 import GUI.model.MainModel;
 import GUI.view.layout.ImagePanel;
+import GUI.view.layout.ProjectPanel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -37,7 +38,8 @@ public class MenuController {
         );
         if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             for (File file : fc.getSelectedFiles()) {
-                model.panelDraw.addTab(file.getName(), new ImagePanel(file));
+                ProjectPanel p = new ProjectPanel(file);
+                model.panelDraw.addTab(file.getName(), p.getContent());
                 model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
             }
 

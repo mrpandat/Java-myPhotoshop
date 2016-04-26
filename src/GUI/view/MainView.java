@@ -34,6 +34,8 @@ public class MainView extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         MainModel.getInstance().getImg().repaint();
+        MainModel.getInstance().panelDraw.getSelectedComponent().repaint();
+
         return;
     }
 }

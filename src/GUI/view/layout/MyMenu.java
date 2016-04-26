@@ -124,11 +124,6 @@ public class MyMenu extends JMenuBar {
         filters.add(mi);
 
         mi = new JMenuItem();
-        mi.setText("Rotate Left");
-        mi.addActionListener(e -> controller.filtersController.PerformRotateLeft());
-        filters.add(mi);
-
-        mi = new JMenuItem();
         mi.setText("Vertical Flip");
         mi.addActionListener(e -> controller.filtersController.PerformVerticalFlip());
         filters.add(mi);

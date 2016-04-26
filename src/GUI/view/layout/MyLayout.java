@@ -21,22 +21,11 @@ public class MyLayout {
 
         /**** PANEL ****/
 
-        panelTop.setBackground(new Color(200, 200, 200));
+        panelTop.setBackground(new Color(60, 60, 60));
         panelTop.setPreferredSize(new Dimension(0, 25));
         MainModel.getInstance().mainPanel.add(panelTop, BorderLayout.PAGE_START);
 
 
-        JPanel panelRight = new JPanel();
-        panelRight.setPreferredSize(new Dimension(50, 0));
-
-        panelRight.setBackground(new Color(255, 0, 0));
-        MainModel.getInstance().mainPanel.add(panelRight, BorderLayout.LINE_START);
-
-        JPanel panelHistory = new JPanel();
-        panelHistory.setPreferredSize(new Dimension(50, 0));
-
-        panelHistory.setBackground(new Color(125, 125, 125));
-        MainModel.getInstance().mainPanel.add(panelHistory, BorderLayout.LINE_END);
 
 
         JPanel panelStatus = new JPanel();
