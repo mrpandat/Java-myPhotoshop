@@ -27,6 +27,6 @@ public class Binary implements Filter {
 
     @Override
     public String getName() {
-        return "All blue";
+        return "Binary";
     }
 }

@@ -1,8 +1,10 @@
 package GUI.model;
 
 import GUI.view.layout.ImagePanel;
+
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.Observable;
 
 
@@ -10,8 +12,10 @@ public class MainModel extends Observable {
 
     public JPanel mainPanel;
     public JTabbedPane panelDraw;
+    public ArrayList<HistoricPanel> historic;
 
     private MainModel() {
+        this.historic = new ArrayList<HistoricPanel>();
         this.mainPanel = new JPanel();
         this.panelDraw = new JTabbedPane();
     }
@@ -22,12 +26,51 @@ public class MainModel extends Observable {
         return INSTANCE;
     }
 
-    public ImagePanel getImg() {
-        return (ImagePanel)((JPanel)this.panelDraw.getSelectedComponent()).getComponents()[0];
+
+    public void printHistoric() {
+        for (HistoricPanel historicPanel : this.historic) {
+            historicPanel.print();
+        }
     }
 
-    public void setImg(BufferedImage img) {
+    public ImagePanel getImg() {
+        return (ImagePanel) ((JPanel) this.panelDraw.getSelectedComponent()).getComponents()[0];
+    }
+
+    public HistoricPanel getHistoric() {
+        for (HistoricPanel historicPanel : this.historic) {
+            if (historicPanel.id == panelDraw.getSelectedIndex()) {
+                return historicPanel;
+            }
+        }
+        this.historic.add(new HistoricPanel(panelDraw.getSelectedIndex(), getImg().getImage()));
+        return this.historic.get(this.historic.size() - 1);
+    }
+
+
+    public void setImg(BufferedImage img, ActionPanel action) {
+        getHistoric().add(action);
         getImg().setImage(img);
+        notifyObservers();
+        setChanged();
+    }
+
+    public void setPrivateImg(BufferedImage img) {
+        getImg().setImage(img);
+        notifyObservers();
+        setChanged();
+    }
+
+    public void undo() {
+        getHistoric().undo();
+        setPrivateImg(getHistoric().getHistoricImage());
+        notifyObservers();
+        setChanged();
+    }
+
+    public void redo() {
+        getHistoric().redo();
+        setPrivateImg(getHistoric().getHistoricImage());
         notifyObservers();
         setChanged();
     }

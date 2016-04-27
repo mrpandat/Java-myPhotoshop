@@ -88,11 +88,14 @@ public class MyMenu extends JMenuBar {
         JMenuItem mi = new JMenuItem();
         mi.setText("Undo");
         mi.setMnemonic(KeyEvent.VK_U);
+        mi.addActionListener(e -> MainModel.getInstance().undo());
         edit.add(mi);
 
         mi = new JMenuItem();
         mi.setText("Redo..");
         mi.setMnemonic(KeyEvent.VK_R);
+        mi.addActionListener(e -> MainModel.getInstance().redo());
+
         edit.add(mi);
 
         mi = new JMenuItem();
@@ -121,6 +124,11 @@ public class MyMenu extends JMenuBar {
         mi = new JMenuItem();
         mi.setText("Rotate Right");
         mi.addActionListener(e -> controller.filtersController.PerformRotateRight());
+        filters.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Rotate Left");
+        mi.addActionListener(e -> controller.filtersController.PerformRotateLeft());
         filters.add(mi);
 
         mi = new JMenuItem();
