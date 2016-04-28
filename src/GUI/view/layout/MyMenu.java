@@ -4,8 +4,6 @@ import GUI.controller.MainController;
 import GUI.model.MainModel;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 
@@ -48,11 +46,13 @@ public class MyMenu extends JMenuBar {
         mi.setText("Save");
         mi.setMnemonic(KeyEvent.VK_S);
         file.add(mi);
+        mi.addActionListener(e -> controller.menuController.performSave());
 
         mi = new JMenuItem();
         mi.setText("Save As..");
         mi.setMnemonic(KeyEvent.VK_D);
         file.add(mi);
+
 
         mi = new JMenuItem();
         mi.setText("Close");
@@ -96,10 +96,6 @@ public class MyMenu extends JMenuBar {
         mi.setMnemonic(KeyEvent.VK_R);
         mi.addActionListener(e -> MainModel.getInstance().redo());
 
-        edit.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Add Text..");
         edit.add(mi);
     }
 

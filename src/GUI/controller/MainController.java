@@ -1,5 +1,7 @@
 package GUI.controller;
 
+import GUI.controller.filters.FiltersController;
+import GUI.controller.menus.MenuController;
 import GUI.model.MainModel;
 import GUI.view.MainView;
 

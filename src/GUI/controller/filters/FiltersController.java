@@ -1,10 +1,9 @@
-package GUI.controller;
+package GUI.controller.filters;
 
-import GUI.model.ActionPanel;
+import GUI.controller.historic.ActionPanel;
 import GUI.model.MainModel;
 import filter.basic.*;
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 
 public class FiltersController {

@@ -1,9 +1,7 @@
 package main;
 
 import GUI.controller.MainController;
-import GUI.model.MainModel;
 import GUI.view.MainView;
-import GUI.view.layout.MyLayout;
 
 import javax.swing.*;
 

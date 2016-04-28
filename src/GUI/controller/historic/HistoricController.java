@@ -1,4 +1,4 @@
-package GUI.model;
+package GUI.controller.historic;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -6,15 +6,24 @@ import java.util.ArrayList;
 /**
  * Created by jean on 27/04/2016.
  */
-public class HistoricPanel {
+public class HistoricController {
+
+
     public ArrayList<ActionPanel> actions;
     public int id;
     public int modify = 0;
 
-    public HistoricPanel(int id, BufferedImage img)
+    public HistoricController(int id, BufferedImage img)
     {
         this.id = id;
         this.actions = new ArrayList<ActionPanel>();
+        this.actions.add(new ActionPanel("Open Image", img));
+    }
+
+    public HistoricController(int id, BufferedImage img, ArrayList<ActionPanel> actions)
+    {
+        this.id = id;
+        this.actions = actions;
         this.actions.add(new ActionPanel("Open Image", img));
     }
 
@@ -32,7 +41,7 @@ public class HistoricPanel {
             actions.add(a);
             return;
         }
-        this.actions = new ArrayList(this.actions.subList(0, this.actions.size()-modify));
+        this.actions = new ArrayList<ActionPanel>(this.actions.subList(0, this.actions.size()-modify));
         modify = 0;
         this.actions.add(a);
 
@@ -53,4 +62,10 @@ public class HistoricPanel {
         int i = this.actions.size() - modify -1;
         return this.actions.get(i).getImg();
     }
+
+    public ArrayList<ActionPanel> getActions() {
+        return actions;
+    }
+
+
 }

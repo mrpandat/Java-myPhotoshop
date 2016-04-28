@@ -1,4 +1,6 @@
-package GUI.view.layout;
+package GUI.controller.panel;
+
+import GUI.controller.historic.ActionPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -7,6 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * We give you this class to help you display images.
@@ -38,6 +41,8 @@ public class ImagePanel extends JPanel implements Serializable
         pixels = new int[width * height];
         image.getRGB(0, 0, width, height, pixels, 0, width);
     }
+
+
 
     /**
      * Create the ImagePanel

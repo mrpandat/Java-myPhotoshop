@@ -11,7 +11,7 @@ public class VerticalFlip implements Filter {
         int h = img.getHeight();
         BufferedImage res = new BufferedImage(w,h, img.getType());
         for (int i = 0; i < img.getWidth(); i++)
-            for (int j = 0; j < img.getHeight() / 2; j++) {
+            for (int j = 0; j <= img.getHeight() / 2; j++) {
                 res.setRGB(i, j, img.getRGB(i, img.getHeight() - 1 - j));
                 res.setRGB(i, img.getHeight() - 1 - j, img.getRGB(i, j));
             }

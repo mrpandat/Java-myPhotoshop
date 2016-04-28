@@ -3,7 +3,6 @@ package filter.basic;
 import filter.Filter;
 
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 /**
  * Created by jean on 25/04/2016.

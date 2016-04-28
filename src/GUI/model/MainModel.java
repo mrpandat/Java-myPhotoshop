@@ -1,6 +1,8 @@
 package GUI.model;
 
-import GUI.view.layout.ImagePanel;
+import GUI.controller.historic.ActionPanel;
+import GUI.controller.historic.HistoricController;
+import GUI.controller.panel.ImagePanel;
 
 import javax.swing.*;
 import java.awt.image.BufferedImage;
@@ -12,10 +14,10 @@ public class MainModel extends Observable {
 
     public JPanel mainPanel;
     public JTabbedPane panelDraw;
-    public ArrayList<HistoricPanel> historic;
+    public ArrayList<HistoricController> historic;
 
     private MainModel() {
-        this.historic = new ArrayList<HistoricPanel>();
+        this.historic = new ArrayList<HistoricController>();
         this.mainPanel = new JPanel();
         this.panelDraw = new JTabbedPane();
     }
@@ -26,24 +28,17 @@ public class MainModel extends Observable {
         return INSTANCE;
     }
 
-
-    public void printHistoric() {
-        for (HistoricPanel historicPanel : this.historic) {
-            historicPanel.print();
-        }
-    }
-
     public ImagePanel getImg() {
         return (ImagePanel) ((JPanel) this.panelDraw.getSelectedComponent()).getComponents()[0];
     }
 
-    public HistoricPanel getHistoric() {
-        for (HistoricPanel historicPanel : this.historic) {
-            if (historicPanel.id == panelDraw.getSelectedIndex()) {
-                return historicPanel;
+    public HistoricController getHistoric() {
+        for (HistoricController historicController : this.historic) {
+            if (historicController.id == panelDraw.getSelectedIndex()) {
+                return historicController;
             }
         }
-        this.historic.add(new HistoricPanel(panelDraw.getSelectedIndex(), getImg().getImage()));
+        this.historic.add(new HistoricController(panelDraw.getSelectedIndex(), getImg().getImage()));
         return this.historic.get(this.historic.size() - 1);
     }
 

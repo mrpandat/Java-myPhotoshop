@@ -1,4 +1,4 @@
-package GUI.model;
+package GUI.controller.historic;
 
 import java.awt.image.BufferedImage;
 
