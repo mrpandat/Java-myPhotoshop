@@ -1,6 +1,8 @@
 package GUI.controller.panel;
 
 import GUI.controller.historic.ActionPanel;
+import GUI.controller.historic.HistoricController;
+import GUI.model.MainModel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -24,6 +26,7 @@ public class ImagePanel extends JPanel implements Serializable
     private final int imageType;
     private final int[] pixels;
     public transient BufferedImage image;
+    public HistoricController historic;
 
     /**
      * Create the ImagePanel
@@ -114,4 +117,11 @@ public class ImagePanel extends JPanel implements Serializable
         this.fileName = fileName;
     }
 
+    public void setHistoric() {
+        this.historic = MainModel.getInstance().getHistoric();
+    }
+
+    public HistoricController getHistoric() {
+        return historic;
+    }
 }

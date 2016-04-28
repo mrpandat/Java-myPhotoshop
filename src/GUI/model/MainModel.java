@@ -43,6 +43,13 @@ public class MainModel extends Observable {
     }
 
 
+    public void setHistoric(HistoricController historic) {
+        this.historic.add(historic);
+        historic.setId(this.historic.size() - 1);
+    }
+
+
+
     public void setImg(BufferedImage img, ActionPanel action) {
         getHistoric().add(action);
         getImg().setImage(img);
@@ -69,5 +76,18 @@ public class MainModel extends Observable {
         notifyObservers();
         setChanged();
     }
+
+    public void deleteHistoric() {
+        historic.remove(panelDraw.getSelectedIndex());
+    }
+
+    public void deleteHistoric(int i) {
+        historic.remove(i);
+    }
+    public void deleteAllHistoric() {
+        this.historic = new ArrayList<HistoricController>();
+    }
+
+
 
 }

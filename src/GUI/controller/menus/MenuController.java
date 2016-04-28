@@ -1,8 +1,10 @@
 package GUI.controller.menus;
 
+import GUI.controller.historic.ActionPanel;
 import GUI.controller.panel.ImagePanel;
 import GUI.model.MainModel;
 import GUI.view.layout.ProjectPanel;
+import main.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -45,12 +47,20 @@ public class MenuController {
                     //OPEN A SERIALIZABLE FILE
                     FileInputStream fin = null;
                     try {
+
                         fin = new FileInputStream(file.getPath());
                         ObjectInputStream ois = new ObjectInputStream(fin);
                         ImagePanel img = (ImagePanel) ois.readObject();
-                        ProjectPanel p = new ProjectPanel(img);
+
+                        //PREPARE HISTORIC
+                        img.getHistoric().buildImages();
+                        ProjectPanel p = new ProjectPanel(new ImagePanel( img.getHistoric().getHistoricImage(),file.getPath()));
+                        MainModel.getInstance().setHistoric(img.getHistoric());
+
                         model.panelDraw.addTab(file.getName(), p.getContent());
                         model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+                        ois.close();
+                        fin.close();
                     } catch (IOException | ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -70,6 +80,7 @@ public class MenuController {
             int i = 0;
             while (model.panelDraw.getTabCount() != 1) {
                 if (model.panelDraw.getSelectedIndex() != i) {
+                    model.deleteHistoric(i);
                     model.panelDraw.removeTabAt(i);
                 }
                 i++;
@@ -80,6 +91,7 @@ public class MenuController {
     }
 
     public void performCloseAll() {
+        model.deleteAllHistoric();
         if (model.panelDraw.getTabCount() > 0) {
             model.panelDraw.removeAll();
         }
@@ -88,6 +100,7 @@ public class MenuController {
 
     public void performClose() {
         if (model.panelDraw.getTabCount() > 0) {
+            model.deleteHistoric();
             model.panelDraw.remove(model.panelDraw.getSelectedIndex());
         }
         model.notifyObservers();
@@ -107,17 +120,21 @@ public class MenuController {
                 s = s.substring(0, s.length() - 3) + "myPSD";
             }
 
-            //get obj as bytes
-            oos = new ObjectOutputStream(bos);
-            oos.writeObject(MainModel.getInstance().getImg());
-            byte[] data = bos.toByteArray();
 
-            //save the bytes
-            FileOutputStream out = new FileOutputStream(s);
-            out.write(data);
+                MainModel.getInstance().getImg().setHistoric();
+                //get obj as bytes
+                oos = new ObjectOutputStream(bos);
+                oos.writeObject(MainModel.getInstance().getImg());
+                byte[] data = bos.toByteArray();
 
-            oos.close();
-            out.close();
+                //save the bytes
+                FileOutputStream out = new FileOutputStream(s);
+                out.write(data);
+                out.flush();
+                oos.flush();
+                oos.close();
+                out.close();
+
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,6 +155,10 @@ public class MenuController {
         } catch (IOException e) {
 
         }
+    }
+
+    public void serializeHistoric(){
+
     }
 
 
