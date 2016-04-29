@@ -12,38 +12,23 @@ import javax.swing.filechooser.FileFilter;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
 
 
 public class MenuController {
     public MainModel model = MainModel.getInstance();
 
     public void performOpen() {
-        JFileChooser fc = new JFileChooser("~");
-        fc.removeChoosableFileFilter(fc.getFileFilter());
-        fc.setMultiSelectionEnabled(true);
-        fc.setFileFilter(new FileFilter() {
-                             public boolean accept(File f) {
-                                 if (f.isDirectory()) {
-                                     return true;
-                                 } else if (
-                                         f.getName().endsWith(".bmp") ||
-                                                 f.getName().endsWith(".jpg") ||
-                                                 f.getName().endsWith(".gif") ||
-                                                 f.getName().endsWith(".myPSD") ||
-                                                 f.getName().endsWith(".png")) {
-                                     return true;
-                                 } else return false;
-                             }
-
-                             public String getDescription() {
-                                 return "Images Files";
-                             }
-                         }
-        );
-
+        ArrayList<String> a = new ArrayList<String>();
+        a.add(".myPSD");
+        a.add(".bmp");
+        a.add(".jpg");
+        a.add(".png");
+        a.add(".gif");
+        JFileChooser fc = getFileChooser(a);
         if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             for (File file : fc.getSelectedFiles()) {
-                if(file.getName().endsWith(".myPSD")) {
+                if (file.getName().endsWith(".myPSD")) {
                     //OPEN A SERIALIZABLE FILE
                     FileInputStream fin = null;
                     try {
@@ -54,7 +39,7 @@ public class MenuController {
 
                         //PREPARE HISTORIC
                         img.getHistoric().buildImages();
-                        ProjectPanel p = new ProjectPanel(new ImagePanel( img.getHistoric().getHistoricImage(),file.getPath()));
+                        ProjectPanel p = new ProjectPanel(new ImagePanel(img.getHistoric().getHistoricImage(), file.getPath()));
                         MainModel.getInstance().setHistoric(img.getHistoric());
 
                         model.panelDraw.addTab(file.getName(), p.getContent());
@@ -121,19 +106,19 @@ public class MenuController {
             }
 
 
-                MainModel.getInstance().getImg().setHistoric();
-                //get obj as bytes
-                oos = new ObjectOutputStream(bos);
-                oos.writeObject(MainModel.getInstance().getImg());
-                byte[] data = bos.toByteArray();
+            MainModel.getInstance().getImg().setHistoric();
+            //get obj as bytes
+            oos = new ObjectOutputStream(bos);
+            oos.writeObject(MainModel.getInstance().getImg());
+            byte[] data = bos.toByteArray();
 
-                //save the bytes
-                FileOutputStream out = new FileOutputStream(s);
-                out.write(data);
-                out.flush();
-                oos.flush();
-                oos.close();
-                out.close();
+            //save the bytes
+            FileOutputStream out = new FileOutputStream(s);
+            out.write(data);
+            out.flush();
+            oos.flush();
+            oos.close();
+            out.close();
 
 
         } catch (IOException e) {
@@ -143,23 +128,57 @@ public class MenuController {
 
 
     public void performSaveAs() {
-        JFileChooser fc = new JFileChooser("~");
+         ArrayList<String> a = new ArrayList<String>();
+        a.add(".myPSD");
+        JFileChooser fc = getFileChooser(a);
+        fc.setMultiSelectionEnabled(false);
 
-        try {
-            try (FileWriter fw = new FileWriter(fc.getSelectedFile())) {
-                File outputfile = fc.getSelectedFile();
-                BufferedImage bi = MainModel.getInstance().getImg().getImage();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutput oos = null;
+        if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
+            try {
 
-                boolean b = ImageIO.write(bi, "JPG", outputfile);
+                MainModel.getInstance().getImg().setHistoric();
+                //get obj as bytes
+                oos = new ObjectOutputStream(bos);
+                oos.writeObject(MainModel.getInstance().getImg());
+                byte[] data = bos.toByteArray();
+
+                //save the bytes
+                FileOutputStream out = new FileOutputStream(fc.getSelectedFile().getPath());
+                out.write(data);
+                out.flush();
+                oos.flush();
+                oos.close();
+                out.close();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-
         }
     }
 
-    public void serializeHistoric(){
+    public JFileChooser getFileChooser(ArrayList<String> filters) {
+        JFileChooser fc = new JFileChooser("~");
+        fc.removeChoosableFileFilter(fc.getFileFilter());
+        fc.setMultiSelectionEnabled(true);
+        fc.setFileFilter(new FileFilter() {
+                             public boolean accept(File f) {
+                                 if (f.isDirectory()) {
+                                     return true;
+                                 } else if (
+                                         filters.contains(f.getName().substring(f.getName().length() - 4, f.getName().length()))) {
+                                     return true;
+                                 } else return false;
+                             }
 
+                             public String getDescription() {
+                                 return "Images Files";
+                             }
+                         }
+        );
+        return fc;
     }
-
 
 }

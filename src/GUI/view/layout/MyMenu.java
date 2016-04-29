@@ -52,6 +52,8 @@ public class MyMenu extends JMenuBar {
         mi.setText("Save As..");
         mi.setMnemonic(KeyEvent.VK_D);
         file.add(mi);
+        mi.addActionListener(e -> controller.menuController.performSaveAs());
+
 
 
         mi = new JMenuItem();
