@@ -14,7 +14,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-        List a = getClasseNames("filter/BasicFilter.jar");
         MainView view = new MainView();
         MainController controller = new MainController(view);
 
@@ -30,33 +29,5 @@ public class Main {
             frame.setVisible(true);
             frame.pack();
         });
-    }
-
-    public static List getClasseNames(String jarName) {
-        ArrayList classes = new ArrayList();
-
-        if (true)
-            System.out.println("Jar " + jarName );
-        try {
-            JarInputStream jarFile = new JarInputStream(new FileInputStream(
-                    jarName));
-            JarEntry jarEntry;
-
-            while (true) {
-                jarEntry = jarFile.getNextJarEntry();
-                if (jarEntry == null) {
-                    break;
-                }
-                if (jarEntry.getName().endsWith(".class")) {
-                    if (true)
-                        System.out.println("Found "
-                                + jarEntry.getName().replaceAll("/", "\\."));
-                    classes.add(jarEntry.getName().replaceAll("/", "\\."));
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return classes;
     }
 }

@@ -2,6 +2,7 @@ package GUI.view.layout;
 
 import GUI.controller.MainController;
 import GUI.model.MainModel;
+import filter.Filter;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -101,13 +102,34 @@ public class MyMenu extends JMenuBar {
         edit.add(mi);
     }
 
+
     private void generateFiltersMenu(MainController controller) {
         /****** FILTERS MENU *****/
+
 
         JMenu filters = new JMenu();
         filters.setText("Filters");
         filters.setMnemonic(KeyEvent.VK_I);
         this.add(filters);
+
+        for (Class aClass : controller.filtersController.getClasses()) {
+            JMenuItem mi = new JMenuItem();
+            try {
+                Filter filter = (Filter)aClass.newInstance();
+                mi.setText(filter.getName());
+                mi.addActionListener(e -> controller.applyFilter(filter));
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            filters.add(mi);
+        }
+
+        /*
+
+        VeryLong a = new VeryLong();
+
 
         JMenuItem mi = new JMenuItem();
         mi.setText("All blue");
@@ -158,7 +180,7 @@ public class MyMenu extends JMenuBar {
         mi.setText("Invert");
         mi.addActionListener(e -> controller.filtersController.PerformInvert());
         filters.add(mi);
-
+*/
 
     }
 }
