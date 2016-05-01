@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MyLayout {
+
+
     public void generateLayout(MainController controller) {
         JTabbedPane panelDraw = MainModel.getInstance().panelDraw;
         MainModel.getInstance().mainPanel.setLayout(new BorderLayout());
@@ -33,5 +35,9 @@ public class MyLayout {
 
     public JPanel getContent() {
         return  MainModel.getInstance().mainPanel;
+    }
+
+    public String getName() {
+        return "MyPhotoshop by treibe_a";
     }
 }
