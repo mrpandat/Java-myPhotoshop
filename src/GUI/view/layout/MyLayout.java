@@ -7,8 +7,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MyLayout {
-
-
     public void generateLayout(MainController controller) {
         JTabbedPane panelDraw = MainModel.getInstance().panelDraw;
         MainModel.getInstance().mainPanel.setLayout(new BorderLayout());
@@ -21,12 +19,9 @@ public class MyLayout {
 
         /**** PANEL ****/
 
-        panelTop.setBackground(new Color(60, 60, 60));
+        panelTop.setBackground(new Color(110, 110, 110));
         panelTop.setPreferredSize(new Dimension(0, 25));
         MainModel.getInstance().mainPanel.add(panelTop, BorderLayout.PAGE_START);
-
-
-
 
         JPanel panelStatus = new JPanel();
         panelStatus.setPreferredSize(new Dimension(0, 25));
@@ -38,9 +33,5 @@ public class MyLayout {
 
     public JPanel getContent() {
         return  MainModel.getInstance().mainPanel;
-    }
-
-    public String getName() {
-        return "MyPhotoshop by treibe_a";
     }
 }

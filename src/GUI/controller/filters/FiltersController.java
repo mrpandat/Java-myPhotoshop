@@ -1,25 +1,21 @@
 package GUI.controller.filters;
 
-import GUI.controller.historic.ActionPanel;
 import GUI.model.MainModel;
-import filter.basic.*;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class FiltersController {
     public MainModel model = MainModel.getInstance();
+
+    public ArrayList<Class> getClasses() {
+        return classes;
+    }
 
     private ArrayList<Class> classes = new ArrayList<Class>();
 
@@ -55,13 +51,4 @@ public class FiltersController {
             e.printStackTrace();
         }
     }
-
-/*
-    public void performVeryLong() {
-        VeryLong a = new VeryLong();
-        BufferedImage bi = a.perform(this.model.getImg().getImage());
-        model.setImg(bi,new ActionPanel(a.getName(),bi));
-        model.notifyObservers();
-
-    }*/
 }

@@ -16,7 +16,6 @@ public class ProjectPanel extends JPanel{
         this.projectPanel = new JPanel();
         this.projectPanel.setLayout(new BorderLayout());
 
-        this.projectPanel.setBackground(new Color(90,90,90));
         this.imgPanel = new ImagePanel(file);
         imgPanel.setSize(new Dimension(imgPanel.getWidth(), imgPanel.getHeight()));
         this.projectPanel.add(imgPanel,BorderLayout.CENTER);
@@ -35,8 +34,6 @@ public class ProjectPanel extends JPanel{
     public ProjectPanel(ImagePanel img) {
         this.projectPanel = new JPanel();
         this.projectPanel.setLayout(new BorderLayout());
-
-        this.projectPanel.setBackground(new Color(90,90,90));
 
         this.imgPanel = img;
         imgPanel.buildImage();
