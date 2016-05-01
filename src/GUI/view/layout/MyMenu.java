@@ -108,7 +108,7 @@ public class MyMenu extends JMenuBar {
         filters.setText("Filters");
         filters.setMnemonic(KeyEvent.VK_I);
         this.add(filters);
-
+/*
         JMenuItem mi = new JMenuItem();
         mi.setText("All blue");
         mi.addActionListener(e -> controller.filtersController.performAllBlue());
@@ -158,7 +158,7 @@ public class MyMenu extends JMenuBar {
         mi.setText("Invert");
         mi.addActionListener(e -> controller.filtersController.PerformInvert());
         filters.add(mi);
-
+*/
 
     }
 }
