@@ -28,7 +28,8 @@ public class MyLayout {
         JPanel panelStatus = new JPanel();
         panelStatus.setPreferredSize(new Dimension(0, 25));
 
-        panelStatus.setBackground(new Color(125, 0, 125));
+        panelStatus.setBackground(new Color(110, 110, 110));
+        panelStatus.add(MainModel.getInstance().statusBar);
         MainModel.getInstance().mainPanel.add(panelStatus, BorderLayout.PAGE_END);
         return;
     }

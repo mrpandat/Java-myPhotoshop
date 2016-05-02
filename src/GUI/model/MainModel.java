@@ -5,6 +5,8 @@ import GUI.controller.historic.HistoricController;
 import GUI.controller.panel.ImagePanel;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -14,6 +16,7 @@ public class MainModel extends Observable {
 
     public JPanel mainPanel;
     public JTabbedPane panelDraw;
+    public JLabel statusBar;
     public ArrayList<HistoricController> historic;
     public ArrayList<Thread> filterThread = new ArrayList<Thread>();
 
@@ -21,6 +24,14 @@ public class MainModel extends Observable {
         this.historic = new ArrayList<HistoricController>();
         this.mainPanel = new JPanel();
         this.panelDraw = new JTabbedPane();
+        this.statusBar = new JLabel("Welcome to myphotoshop :)");
+
+        panelDraw.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                System.out.println("Tab: " + panelDraw.getSelectedIndex());
+                statusBar.setText(getHistoric().getLastHistoricName());
+            }
+        });
     }
 
     private static MainModel INSTANCE = new MainModel();
@@ -55,12 +66,14 @@ public class MainModel extends Observable {
         getImg().setImage(img);
         notifyObservers();
         setChanged();
+        statusBar.setText(getHistoric().getLastHistoricName());
     }
 
     public void setPrivateImg(BufferedImage img) {
         getImg().setImage(img);
         notifyObservers();
         setChanged();
+        statusBar.setText(getHistoric().getLastHistoricName());
     }
 
     public void undo() {
@@ -68,6 +81,8 @@ public class MainModel extends Observable {
         setPrivateImg(getHistoric().getHistoricImage());
         notifyObservers();
         setChanged();
+        if (!getHistoric().isLast())
+            setStatusBar("Undo to " + getStatusBar());
     }
 
     public void redo() {
@@ -75,12 +90,22 @@ public class MainModel extends Observable {
         setPrivateImg(getHistoric().getHistoricImage());
         notifyObservers();
         setChanged();
+        if (!getHistoric().isLast())
+            setStatusBar("Redo to " + getStatusBar());
     }
 
     public void cancelFilter() {
         if (filterThread.isEmpty()) return;
         this.filterThread.get(this.filterThread.size() - 1).stop();
         this.filterThread.remove(this.filterThread.size() - 1);
+    }
+
+    public void setStatusBar(String text) {
+        this.statusBar.setText(text);
+    }
+
+    public String getStatusBar() {
+        return this.statusBar.getText();
     }
 
     public void deleteHistoric() {

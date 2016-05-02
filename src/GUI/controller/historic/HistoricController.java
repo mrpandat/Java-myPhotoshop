@@ -69,6 +69,10 @@ public class HistoricController implements Serializable{
         int i = this.actions.size() - modify - 1;
         return this.actions.get(i).getImg();
     }
+    public String getLastHistoricName() {
+        int i = this.actions.size() - modify - 1;
+        return this.actions.get(i).getName();
+    }
 
     public ArrayList<ActionPanel> getActions() {
         return actions;
@@ -84,6 +88,12 @@ public class HistoricController implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isLast() {
+        if(modify == 0 || modify == this.actions.size())
+            return true;
+        return false;
     }
 
 }

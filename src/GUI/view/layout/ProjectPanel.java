@@ -25,7 +25,7 @@ public class ProjectPanel extends JPanel{
 
         panelHistory.setPreferredSize(new Dimension(150, 0));
 
-        panelHistory.setBackground(new Color(125, 125, 125));
+        panelHistory.setBackground(new Color(110, 110, 110));
         this.projectPanel.add(panelHistory, BorderLayout.LINE_END);
 
 
@@ -45,7 +45,7 @@ public class ProjectPanel extends JPanel{
 
         panelHistory.setPreferredSize(new Dimension(150, 0));
 
-        panelHistory.setBackground(new Color(125, 125, 125));
+        panelHistory.setBackground(new Color(110, 110, 110));
         this.projectPanel.add(panelHistory, BorderLayout.LINE_END);
 
 
