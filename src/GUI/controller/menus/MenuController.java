@@ -1,17 +1,12 @@
 package GUI.controller.menus;
 
-import GUI.controller.historic.ActionPanel;
 import GUI.controller.panel.ImagePanel;
 import GUI.model.MainModel;
 import GUI.view.layout.ProjectPanel;
-import main.Main;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
 import java.util.ArrayList;
 
 

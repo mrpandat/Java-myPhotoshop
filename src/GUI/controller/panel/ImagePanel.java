@@ -1,6 +1,5 @@
 package GUI.controller.panel;
 
-import GUI.controller.historic.ActionPanel;
 import GUI.controller.historic.HistoricController;
 import GUI.model.MainModel;
 
@@ -11,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 /**
  * We give you this class to help you display images.

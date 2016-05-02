@@ -1,11 +1,9 @@
 package GUI.controller.historic;
 
 import GUI.controller.panel.ImagePanel;
-import main.Main;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * Created by jean on 27/04/2016.

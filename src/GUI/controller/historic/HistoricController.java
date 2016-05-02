@@ -1,7 +1,7 @@
 package GUI.controller.historic;
 
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
