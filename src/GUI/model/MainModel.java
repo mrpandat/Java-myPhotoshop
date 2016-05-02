@@ -15,6 +15,7 @@ public class MainModel extends Observable {
     public JPanel mainPanel;
     public JTabbedPane panelDraw;
     public ArrayList<HistoricController> historic;
+    public ArrayList<Thread> filterThread = new ArrayList<Thread>();
 
     private MainModel() {
         this.historic = new ArrayList<HistoricController>();
@@ -49,7 +50,6 @@ public class MainModel extends Observable {
     }
 
 
-
     public void setImg(BufferedImage img, ActionPanel action) {
         getHistoric().add(action);
         getImg().setImage(img);
@@ -77,6 +77,12 @@ public class MainModel extends Observable {
         setChanged();
     }
 
+    public void cancelFilter() {
+        if (filterThread.isEmpty()) return;
+        this.filterThread.get(this.filterThread.size() - 1).stop();
+        this.filterThread.remove(this.filterThread.size() - 1);
+    }
+
     public void deleteHistoric() {
         historic.remove(panelDraw.getSelectedIndex());
     }
@@ -84,10 +90,10 @@ public class MainModel extends Observable {
     public void deleteHistoric(int i) {
         historic.remove(i);
     }
+
     public void deleteAllHistoric() {
         this.historic = new ArrayList<HistoricController>();
     }
-
 
 
 }

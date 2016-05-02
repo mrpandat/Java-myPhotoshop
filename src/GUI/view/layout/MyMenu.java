@@ -77,8 +77,6 @@ public class MyMenu extends JMenuBar {
         file.add(mi);
 
         mi.addActionListener(e -> controller.menuController.performCloseAll());
-
-        return;
     }
 
     private void generateEditMenu(MainController controller) {
@@ -89,17 +87,25 @@ public class MyMenu extends JMenuBar {
         this.add(edit);
 
         JMenuItem mi = new JMenuItem();
+
+        mi.setText("Cancel Filter");
+        mi.setMnemonic(KeyEvent.VK_R);
+        mi.addActionListener(e -> MainModel.getInstance().cancelFilter());
+        edit.add(mi);
+
+        mi = new JMenuItem();
         mi.setText("Undo");
         mi.setMnemonic(KeyEvent.VK_U);
         mi.addActionListener(e -> MainModel.getInstance().undo());
         edit.add(mi);
 
         mi = new JMenuItem();
-        mi.setText("Redo..");
+        mi.setText("Redo");
         mi.setMnemonic(KeyEvent.VK_R);
         mi.addActionListener(e -> MainModel.getInstance().redo());
 
         edit.add(mi);
+
     }
 
 
@@ -125,62 +131,6 @@ public class MyMenu extends JMenuBar {
             }
             filters.add(mi);
         }
-
-        /*
-
-        VeryLong a = new VeryLong();
-
-
-        JMenuItem mi = new JMenuItem();
-        mi.setText("All blue");
-        mi.addActionListener(e -> controller.filtersController.performAllBlue());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Very Long");
-        mi.addActionListener(e -> controller.filtersController.performVeryLong());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Rotate Right");
-        mi.addActionListener(e -> controller.filtersController.PerformRotateRight());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Rotate Left");
-        mi.addActionListener(e -> controller.filtersController.PerformRotateLeft());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Vertical Flip");
-        mi.addActionListener(e -> controller.filtersController.PerformVerticalFlip());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Horizontal Flip");
-        mi.addActionListener(e -> controller.filtersController.PerformHorizontalFlip());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Grayscale");
-        mi.addActionListener(e -> controller.filtersController.PerformGrayscale());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Binary");
-        mi.addActionListener(e -> controller.filtersController.PerformBinary());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Grayscale");
-        mi.addActionListener(e -> controller.filtersController.PerformGrayscale());
-        filters.add(mi);
-
-        mi = new JMenuItem();
-        mi.setText("Invert");
-        mi.addActionListener(e -> controller.filtersController.PerformInvert());
-        filters.add(mi);
-*/
 
     }
 }

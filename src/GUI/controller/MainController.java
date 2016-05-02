@@ -10,6 +10,7 @@ import filter.Filter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class MainController implements ActionListener {
     public MainView imgv;
@@ -25,9 +26,20 @@ public class MainController implements ActionListener {
 
     public void applyFilter(Filter f) {
         MainModel m = MainModel.getInstance();
-        BufferedImage bi = f.perform(m.getImg().getImage());
-        m.setImg(bi,new ActionPanel(f.getName(),bi));
-        m.notifyObservers();
+
+
+
+            Thread t = new Thread() {
+                public void run() {
+                    this.setName(f.getName());
+                    BufferedImage bi = f.perform(m.getImg().getImage());
+                    m.setImg(bi, new ActionPanel(f.getName(), bi));
+                    m.notifyObservers();
+                    model.filterThread.remove(this);
+                }
+            };
+            model.filterThread.add(t);
+            t.start();
 
     }
 
