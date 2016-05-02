@@ -2,6 +2,7 @@ package filter.basic;
 
 import filter.Filter;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Binary implements Filter {
