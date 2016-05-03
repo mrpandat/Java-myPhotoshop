@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * Created by jean on 27/04/2016.
  */
-public class ActionPanel implements Serializable{
+public class ActionPanel implements Serializable {
     public String name;
     public ImagePanel imgp;
     public transient BufferedImage img;

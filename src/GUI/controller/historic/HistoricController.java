@@ -3,6 +3,8 @@ package GUI.controller.historic;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * Created by jean on 27/04/2016.
@@ -76,12 +78,20 @@ public class HistoricController implements Serializable{
         return actions;
     }
 
-    public BufferedImage getLastimg() {
-        return this.actions.get(this.actions.size() - 1).getImg();
+    public Vector<String> getActionsNames() {
+        Vector<String> actionsNames = new Vector<String>();
+        int i = this.actions.size() - modify;
+        int j = 0;
+        while(j <= i && j < this.actions.size()) {
+            actionsNames.add(this.actions.get(j).getName());
+            j++;
+        }
+        return actionsNames;
     }
 
-    public void setModify(int modify) {
-        this.modify = modify;
+
+    public BufferedImage getLastimg() {
+        return this.actions.get(this.actions.size() - 1).getImg();
     }
 
     public void setId(int id) {

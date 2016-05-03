@@ -10,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Observable;
+import java.util.Vector;
 
 
 public class MainModel extends Observable {
@@ -18,10 +19,12 @@ public class MainModel extends Observable {
     public JTabbedPane panelDraw;
     public JLabel statusBar;
     public ArrayList<HistoricController> historic;
+    public JList historicList;
     public ArrayList<Thread> filterThread = new ArrayList<Thread>();
 
     private MainModel() {
         this.historic = new ArrayList<HistoricController>();
+        this.historicList = new JList();
         this.mainPanel = new JPanel();
         this.panelDraw = new JTabbedPane();
         this.statusBar = new JLabel("Welcome to myphotoshop :)");
@@ -32,6 +35,7 @@ public class MainModel extends Observable {
                     statusBar.setText("");
                     return;
                 }
+                setHistoric();
                 statusBar.setText(getHistoric().getLastHistoricName());
             }
         });
@@ -66,18 +70,21 @@ public class MainModel extends Observable {
 
     public void setImg(BufferedImage img, ActionPanel action) {
         if (getHistoric().isEmpty()) return;
+        if (this.panelDraw.getTabCount() <= 0) return;
         getHistoric().add(action);
-        getImg().setImage(img);
-        notifyObservers();
-        setChanged();
-        statusBar.setText(getHistoric().getLastHistoricName());
+
+        setPrivateImg(img);
     }
 
     public void setPrivateImg(BufferedImage img) {
+        if (getHistoric().isEmpty()) return;
+        if (this.panelDraw.getTabCount() <= 0) return;
         getImg().setImage(img);
         notifyObservers();
         setChanged();
+
         statusBar.setText(getHistoric().getLastHistoricName());
+        setHistoric();
     }
 
     public void undo() {
@@ -122,16 +129,14 @@ public class MainModel extends Observable {
         historic.remove(panelDraw.getSelectedIndex());
     }
 
-    public void deleteHistoric(int i) {
-        historic.remove(i);
-    }
-
     public void deleteAllHistoric() {
         this.historic = new ArrayList<HistoricController>();
     }
 
-    public void deleteTab() {
-
+    public void setHistoric() {
+        Vector actions = getHistoric().getActionsNames();
+        historicList.setListData(actions);
+        historicList.setSelectedIndex(actions.size() - 1);
+        historicList.repaint();
     }
-
 }

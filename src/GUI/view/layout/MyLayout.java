@@ -2,6 +2,7 @@ package GUI.view.layout;
 
 import GUI.controller.MainController;
 import GUI.model.MainModel;
+import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,27 +11,35 @@ public class MyLayout {
 
 
     public void generateLayout(MainController controller) {
-        JTabbedPane panelDraw = MainModel.getInstance().panelDraw;
-        MainModel.getInstance().mainPanel.setLayout(new BorderLayout());
-        panelDraw.setPreferredSize(new Dimension(200, 100));
-        MainModel.getInstance().mainPanel.add(panelDraw, BorderLayout.CENTER);
+        MainModel model = MainModel.getInstance();
+        JTabbedPane panelDraw = model.panelDraw;
+        model.mainPanel.setLayout(new BorderLayout());
+        panelDraw.setPreferredSize(new Dimension(1000, 600));
+        model.mainPanel.add(panelDraw, BorderLayout.CENTER);
 
         /****** MENU *****/
-        MyMenu panelTop = new MyMenu( MainModel.getInstance().mainPanel, panelDraw);
+        MyMenu panelTop = new MyMenu( model.mainPanel, panelDraw);
         panelTop.generateMenus(controller);
 
         /**** PANEL ****/
 
         panelTop.setBackground(new Color(110, 110, 110));
         panelTop.setPreferredSize(new Dimension(0, 25));
-        MainModel.getInstance().mainPanel.add(panelTop, BorderLayout.PAGE_START);
+        model.mainPanel.add(panelTop, BorderLayout.PAGE_START);
 
         JPanel panelStatus = new JPanel();
         panelStatus.setPreferredSize(new Dimension(0, 25));
-
         panelStatus.setBackground(new Color(110, 110, 110));
-        panelStatus.add(MainModel.getInstance().statusBar);
-        MainModel.getInstance().mainPanel.add(panelStatus, BorderLayout.PAGE_END);
+
+        panelStatus.add(model.statusBar);
+
+        model.mainPanel.add(panelStatus, BorderLayout.PAGE_END);
+
+        JList panelHistoric =  model.historicList;
+        panelHistoric.setBackground(new Color(110, 110, 110));
+        panelHistoric.setPreferredSize(new Dimension(150, 0));
+        panelHistoric.setBorder((BorderFactory.createLineBorder(Color.black)));
+        model.mainPanel.add(panelHistoric, BorderLayout.EAST);
         return;
     }
 
