@@ -25,21 +25,19 @@ public class MainController implements ActionListener {
     }
 
     public void applyFilter(Filter f) {
+        if (model.panelDraw.getTabCount() <= 0) return;
         MainModel m = MainModel.getInstance();
-
-
-
-            Thread t = new Thread() {
-                public void run() {
-                    this.setName(f.getName());
-                    BufferedImage bi = f.perform(m.getImg().getImage());
-                    m.setImg(bi, new ActionPanel(f.getName(), bi));
-                    m.notifyObservers();
-                    model.filterThread.remove(this);
-                }
-            };
-            model.filterThread.add(t);
-            t.start();
+        Thread t = new Thread() {
+            public void run() {
+                this.setName(f.getName());
+                BufferedImage bi = f.perform(m.getImg().getImage());
+                m.setImg(bi, new ActionPanel(f.getName(), bi));
+                m.notifyObservers();
+                model.filterThread.remove(this);
+            }
+        };
+        model.filterThread.add(t);
+        t.start();
 
     }
 

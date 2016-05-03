@@ -28,7 +28,10 @@ public class MainModel extends Observable {
 
         panelDraw.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-                System.out.println("Tab: " + panelDraw.getSelectedIndex());
+                if (panelDraw.getTabCount() <= 0) {
+                    statusBar.setText("");
+                    return;
+                }
                 statusBar.setText(getHistoric().getLastHistoricName());
             }
         });
@@ -62,6 +65,7 @@ public class MainModel extends Observable {
 
 
     public void setImg(BufferedImage img, ActionPanel action) {
+        if (getHistoric().isEmpty()) return;
         getHistoric().add(action);
         getImg().setImage(img);
         notifyObservers();
@@ -77,6 +81,9 @@ public class MainModel extends Observable {
     }
 
     public void undo() {
+        if (this.panelDraw.getTabCount() <= 0) return;
+
+        if (getHistoric().isEmpty()) return;
         getHistoric().undo();
         setPrivateImg(getHistoric().getHistoricImage());
         notifyObservers();
@@ -86,6 +93,8 @@ public class MainModel extends Observable {
     }
 
     public void redo() {
+        if (this.panelDraw.getTabCount() <= 0) return;
+
         getHistoric().redo();
         setPrivateImg(getHistoric().getHistoricImage());
         notifyObservers();
@@ -109,6 +118,7 @@ public class MainModel extends Observable {
     }
 
     public void deleteHistoric() {
+        if (historic.size() <= 0) return;
         historic.remove(panelDraw.getSelectedIndex());
     }
 
@@ -120,5 +130,8 @@ public class MainModel extends Observable {
         this.historic = new ArrayList<HistoricController>();
     }
 
+    public void deleteTab() {
+
+    }
 
 }

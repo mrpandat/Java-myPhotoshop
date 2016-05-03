@@ -65,13 +65,6 @@ public class MyMenu extends JMenuBar {
 
 
         mi = new JMenuItem();
-        mi.setText("Close others");
-        mi.setMnemonic(KeyEvent.VK_O);
-        file.add(mi);
-
-        mi.addActionListener(e -> controller.menuController.performCloseOthers());
-
-        mi = new JMenuItem();
         mi.setText("Close All");
         mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);

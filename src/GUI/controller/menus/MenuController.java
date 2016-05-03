@@ -55,25 +55,10 @@ public class MenuController {
         model.notifyObservers();
     }
 
-    public void performCloseOthers() {
-        if (model.panelDraw.getTabCount() > 0) {
-            int i = 0;
-            while (model.panelDraw.getTabCount() != 1) {
-                if (model.panelDraw.getSelectedIndex() != i) {
-                    model.deleteHistoric(i);
-                    model.panelDraw.removeTabAt(i);
-                }
-                i++;
-            }
-        }
-        model.notifyObservers();
-
-    }
-
     public void performCloseAll() {
         model.deleteAllHistoric();
-        if (model.panelDraw.getTabCount() > 0) {
-            model.panelDraw.removeAll();
+        while (model.panelDraw.getTabCount() > 0) {
+           performClose();
         }
         model.notifyObservers();
     }
@@ -88,6 +73,7 @@ public class MenuController {
 
 
     public void performSave() {
+        if (model.panelDraw.getTabCount() <= 0) return;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput oos = null;
         String s = MainModel.getInstance().getImg().getFileName();
@@ -115,7 +101,7 @@ public class MenuController {
             oos.close();
             out.close();
 
-
+            model.setStatusBar("Save");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -123,7 +109,8 @@ public class MenuController {
 
 
     public void performSaveAs() {
-         ArrayList<String> a = new ArrayList<String>();
+        if (model.panelDraw.getTabCount() <= 0) return;
+        ArrayList<String> a = new ArrayList<String>();
         a.add(".myPSD");
         JFileChooser fc = getFileChooser(a);
         fc.setMultiSelectionEnabled(false);
@@ -147,6 +134,7 @@ public class MenuController {
                 oos.close();
                 out.close();
 
+                model.setStatusBar("Save");
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -164,6 +152,9 @@ public class MenuController {
                                      return true;
                                  } else if (
                                          filters.contains(f.getName().substring(f.getName().length() - 4, f.getName().length()))) {
+                                     return true;
+                                 }else if (
+                                         filters.contains(f.getName().substring(f.getName().length() - 6, f.getName().length()))) {
                                      return true;
                                  } else return false;
                              }

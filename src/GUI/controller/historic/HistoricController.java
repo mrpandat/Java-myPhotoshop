@@ -30,8 +30,6 @@ public class HistoricController implements Serializable{
 
 
     public void print() {
-        System.out.println(System.lineSeparator() + id + " " + modify);
-        System.out.println("Current :" + this.actions.get(this.actions.size() - modify - 1).getName());
         for (ActionPanel action : this.actions) {
             System.out.println(action.getName());
         }
@@ -94,6 +92,10 @@ public class HistoricController implements Serializable{
         if(modify == 0 || modify == this.actions.size())
             return true;
         return false;
+    }
+
+    public boolean isEmpty() {
+        return this.actions.isEmpty();
     }
 
 }
