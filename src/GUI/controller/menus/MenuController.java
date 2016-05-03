@@ -21,6 +21,9 @@ public class MenuController {
         a.add(".png");
         a.add(".gif");
         JFileChooser fc = getFileChooser(a);
+        PreviewFileChooser preview = new PreviewFileChooser(fc);
+        fc.addPropertyChangeListener(preview);
+        fc.setAccessory(preview);
         if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             for (File file : fc.getSelectedFiles()) {
                 if (file.getName().endsWith(".myPSD")) {
@@ -164,6 +167,7 @@ public class MenuController {
                              }
                          }
         );
+
         return fc;
     }
 
