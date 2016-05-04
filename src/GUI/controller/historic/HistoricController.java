@@ -102,6 +102,6 @@ public class HistoricController implements Serializable{
     }
 
     public int getCurrentId() {
-        return this.actions.size() - modify -1;;
+        return this.actions.size() - modify -1;
     }
 }
