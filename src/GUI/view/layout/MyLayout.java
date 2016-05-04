@@ -39,6 +39,7 @@ public class MyLayout {
         panelHistoric.setBackground(new Color(110, 110, 110));
         panelHistoric.setPreferredSize(new Dimension(150, 0));
         panelHistoric.setBorder((BorderFactory.createLineBorder(Color.black)));
+        panelHistoric.setSelectionBackground(Color.LIGHT_GRAY);
         model.mainPanel.add(panelHistoric, BorderLayout.EAST);
         return;
     }

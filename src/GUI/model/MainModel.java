@@ -7,6 +7,8 @@ import GUI.controller.panel.ImagePanel;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -41,34 +43,6 @@ public class MainModel extends Observable {
         return INSTANCE;
     }
 
-    private void addListeners() {
-        panelDraw.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                if (panelDraw.getTabCount() <= 0) {
-                    statusBar.setText("");
-                    historicList.setListData(new Vector());
-                    return;
-                }
-                setHistoric();
-                statusBar.setText(getHistoric().getLastHistoricName());
-                historicList.setListData(getHistoric().getActionsNames());
-            }
-        });
-
-
-        MouseListener mouseListener = new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    if(historicList.getSelectedIndex() > getHistoric().getCurrentId()) {
-                        redo(historicList.getSelectedIndex());
-                    } else if (historicList.getSelectedIndex() < getHistoric().getCurrentId())
-                        undo(historicList.getSelectedIndex());
-                }
-            }
-        };
-        historicList.addMouseListener(mouseListener);
-    }
-
     public ImagePanel getImg() {
         return (ImagePanel) ((JPanel) this.panelDraw.getSelectedComponent()).getComponents()[0];
     }
@@ -81,7 +55,13 @@ public class MainModel extends Observable {
         setPrivateImg(img);
     }
 
-    public void setPrivateImg(BufferedImage img) {
+    public void cancelFilter() {
+        if (filterThread.isEmpty()) return;
+        this.filterThread.get(this.filterThread.size() - 1).stop();
+        this.filterThread.remove(this.filterThread.size() - 1);
+    }
+
+    private void setPrivateImg(BufferedImage img) {
         if (getHistoric().isEmpty()) return;
         if (this.panelDraw.getTabCount() <= 0) return;
         getImg().setImage(img);
@@ -92,10 +72,40 @@ public class MainModel extends Observable {
         setHistoric();
     }
 
-    public void cancelFilter() {
-        if (filterThread.isEmpty()) return;
-        this.filterThread.get(this.filterThread.size() - 1).stop();
-        this.filterThread.remove(this.filterThread.size() - 1);
+    private void addListeners() {
+        panelDraw.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                if (panelDraw.getTabCount() <= 0) {
+                    statusBar.setText("");
+                    historicList.setListData(new Vector());
+                    return;
+                }
+                statusBar.setText(getHistoric().getLastHistoricName());
+                setHistoric();
+                historicList.repaint();
+            }
+        });
+
+
+        historicList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (historicList.getSelectedIndex() > getHistoric().getCurrentId()) {
+                    redo(historicList.getSelectedIndex());
+                } else if (historicList.getSelectedIndex() < getHistoric().getCurrentId())
+                    undo(historicList.getSelectedIndex());
+                if(getHistoric() != null)
+                historicList.setSelectedIndex(getHistoric().getCurrentId());
+            }
+        });
+
+        historicList.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if(e.getValueIsAdjusting()) {
+                    System.out.print("CHANGING");
+                }
+            }
+        });
     }
 
     //HISTORIC
@@ -108,10 +118,10 @@ public class MainModel extends Observable {
         this.historic = new ArrayList<HistoricController>();
     }
 
-    public void setHistoric() {
+    private void setHistoric() {
         Vector actions = getHistoric().getActionsNames();
         historicList.setListData(actions);
-        historicList.repaint();
+        historicList.setSelectedIndex(getHistoric().getCurrentId());
     }
 
     public void undo() {
@@ -134,35 +144,6 @@ public class MainModel extends Observable {
             setStatusBar("Redo to " + getStatusBar());
     }
 
-    public void undo(int i) {
-        if (this.panelDraw.getTabCount() <= 0) return;
-        if (getHistoric().isEmpty()) return;
-        int j = 0;
-        i = getHistoric().getCurrentId() - i;
-        while (j < i) {
-            getHistoric().undo();
-            j++;
-        }
-        setPrivateImg(getHistoric().getHistoricImage());
-
-        if (!getHistoric().isLast())
-            setStatusBar("Undo to " + getStatusBar());
-    }
-
-    public void redo(int i) {
-        if (this.panelDraw.getTabCount() <= 0) return;
-        if (getHistoric().isEmpty()) return;
-        int j = 0;
-        i = i - getHistoric().getCurrentId();
-        while (j < i) {
-            getHistoric().redo();
-            j++;
-        }
-        setPrivateImg(getHistoric().getHistoricImage());
-        if (!getHistoric().isLast())
-            setStatusBar("Redo to " + getStatusBar());
-    }
-
     public HistoricController getHistoric() {
         for (HistoricController historicController : this.historic) {
             if (historicController.id == panelDraw.getSelectedIndex()) {
@@ -178,12 +159,42 @@ public class MainModel extends Observable {
         historic.setId(this.historic.size() - 1);
     }
 
+    private void undo(int i) {
+        if (this.panelDraw.getTabCount() <= 0) return;
+        if (getHistoric().isEmpty()) return;
+        int j = 0;
+        i = getHistoric().getCurrentId() - i;
+        while (j < i) {
+            getHistoric().undo();
+            j++;
+        }
+        setPrivateImg(getHistoric().getHistoricImage());
+
+        if (!getHistoric().isLast())
+            setStatusBar("Undo to " + getStatusBar());
+    }
+
+    private void redo(int i) {
+        if (this.panelDraw.getTabCount() <= 0) return;
+        if (getHistoric().isEmpty()) return;
+        int j = 0;
+        i = i - getHistoric().getCurrentId();
+        while (j < i) {
+            getHistoric().redo();
+            j++;
+        }
+        setPrivateImg(getHistoric().getHistoricImage());
+        if (!getHistoric().isLast())
+            setStatusBar("Redo to " + getStatusBar());
+    }
+
+
     //STATUS
     public void setStatusBar(String text) {
         this.statusBar.setText(text);
     }
 
-    public String getStatusBar() {
+    private String getStatusBar() {
         return this.statusBar.getText();
     }
 
