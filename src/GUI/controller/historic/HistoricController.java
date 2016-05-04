@@ -74,17 +74,10 @@ public class HistoricController implements Serializable{
         return this.actions.get(i).getName();
     }
 
-    public ArrayList<ActionPanel> getActions() {
-        return actions;
-    }
-
     public Vector<String> getActionsNames() {
         Vector<String> actionsNames = new Vector<String>();
-        int i = this.actions.size() - modify;
-        int j = 0;
-        while(j <= i && j < this.actions.size()) {
-            actionsNames.add(this.actions.get(j).getName());
-            j++;
+        for (ActionPanel action : this.actions) {
+            actionsNames.add(action.getName());
         }
         return actionsNames;
     }
@@ -108,4 +101,7 @@ public class HistoricController implements Serializable{
         return this.actions.isEmpty();
     }
 
+    public int getCurrentId() {
+        return this.actions.size() - modify -1;;
+    }
 }
