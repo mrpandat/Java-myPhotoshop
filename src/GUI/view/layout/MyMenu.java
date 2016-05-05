@@ -35,7 +35,6 @@ public class MyMenu extends JMenuBar {
         file.setMnemonic(KeyEvent.VK_F);
         this.add(file);
 
-
         JMenuItem mi = new JMenuItem();
         mi.setText("Open");
         mi.setMnemonic(KeyEvent.VK_N);
@@ -80,25 +79,28 @@ public class MyMenu extends JMenuBar {
         edit.setText("Edit");
         this.add(edit);
 
-        JMenuItem mi = new JMenuItem();
-
-        mi.setText("Cancel Filter");
-        mi.setMnemonic(KeyEvent.VK_R);
-        mi.addActionListener(e -> MainModel.getInstance().cancelFilter());
-        edit.add(mi);
+        JMenuItem mi;
 
         mi = new JMenuItem();
         mi.setText("Undo");
-        mi.setMnemonic(KeyEvent.VK_U);
         mi.addActionListener(e -> HistoricModel.getInstance().undo());
         edit.add(mi);
 
         mi = new JMenuItem();
         mi.setText("Redo");
-        mi.setMnemonic(KeyEvent.VK_R);
         mi.addActionListener(e -> HistoricModel.getInstance().redo());
-
         edit.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Cancel Filter");
+        mi.addActionListener(e -> MainModel.getInstance().cancelFilter());
+        edit.add(mi);
+
+        mi = new JMenuItem();
+        mi.setText("Change historic size");
+        mi.addActionListener(e -> HistoricModel.getInstance().setSize());
+        edit.add(mi);
+
 
     }
 
