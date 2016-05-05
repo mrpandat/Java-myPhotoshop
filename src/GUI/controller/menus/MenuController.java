@@ -1,6 +1,7 @@
 package GUI.controller.menus;
 
 import GUI.controller.panel.ImagePanel;
+import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 import GUI.view.layout.ProjectPanel;
 
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 public class MenuController {
     public MainModel model = MainModel.getInstance();
+    public HistoricModel historic = HistoricModel.getInstance();
 
     public void performOpen() {
         ArrayList<String> a = new ArrayList<String>();
@@ -38,7 +40,7 @@ public class MenuController {
                         //PREPARE HISTORIC
                         img.getHistoric().buildImages();
                         ProjectPanel p = new ProjectPanel(new ImagePanel(img.getHistoric().getHistoricImage(), file.getPath()));
-                        MainModel.getInstance().setHistoric(img.getHistoric());
+                        HistoricModel.getInstance().setHistoric(img.getHistoric());
 
                         model.panelDraw.addTab(file.getName(), p.getContent());
                         model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
@@ -59,7 +61,7 @@ public class MenuController {
     }
 
     public void performCloseAll() {
-        model.deleteAllHistoric();
+        HistoricModel.getInstance().deleteAllHistoric();
         while (model.panelDraw.getTabCount() > 0) {
            performClose();
         }
@@ -68,7 +70,7 @@ public class MenuController {
 
     public void performClose() {
         if (model.panelDraw.getTabCount() > 0) {
-            model.deleteHistoric();
+            HistoricModel.getInstance().deleteHistoric();
             model.panelDraw.remove(model.panelDraw.getSelectedIndex());
         }
         model.notifyObservers();

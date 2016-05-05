@@ -1,6 +1,7 @@
 package GUI.view.layout;
 
 import GUI.controller.MainController;
+import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 
 import javax.swing.*;
@@ -34,16 +35,10 @@ public class MyLayout {
         panelStatus.add(model.statusBar);
 
         model.mainPanel.add(panelStatus, BorderLayout.PAGE_END);
-/*
 
+        //historic panel
 
-        JScrollPane scrollBar = new JScrollPane(panelHistoric);
-        scrollBar.setVisible(true);
-        */
-
-        JPanel panel = new JPanel();
-
-        JList panelHistoric = model.historicList;
+        JList panelHistoric = HistoricModel.getInstance().historicList;
         panelHistoric.setSize(new Dimension(200,0));
         panelHistoric.setBackground(new Color(150, 150, 150));
         panelHistoric.setBorder((BorderFactory.createLineBorder(Color.black)));
@@ -51,7 +46,6 @@ public class MyLayout {
         panelHistoric.setCellRenderer(new MyHistoricRender());
         JScrollPane spane = new JScrollPane(panelHistoric);
         spane.getVerticalScrollBar().setMaximumSize(model.mainPanel.getSize());
-        panel.add(spane);
         model.mainPanel.add(spane, BorderLayout.EAST);
         return;
     }

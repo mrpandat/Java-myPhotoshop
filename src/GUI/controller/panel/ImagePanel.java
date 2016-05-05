@@ -1,6 +1,7 @@
 package GUI.controller.panel;
 
 import GUI.controller.historic.HistoricController;
+import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 
 import javax.imageio.ImageIO;
@@ -116,7 +117,7 @@ public class ImagePanel extends JPanel implements Serializable
     }
 
     public void setHistoric() {
-        this.historic = MainModel.getInstance().getHistoric();
+        this.historic = HistoricModel.getInstance().getHistoric();
     }
 
     public HistoricController getHistoric() {

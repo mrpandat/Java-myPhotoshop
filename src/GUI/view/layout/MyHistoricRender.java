@@ -1,5 +1,6 @@
 package GUI.view.layout;
 
+import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class MyHistoricRender implements ListCellRenderer {
         jPanel.setLayout(new BorderLayout());
         JLabel renderer = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 
-        BufferedImage bimage = MainModel.getInstance().getHistoric().get(index).getImg();
+        BufferedImage bimage = HistoricModel.getInstance().getHistoric().get(index).getImg();
         Dimension d = getDimension(bimage,200);
         ImageIcon imgicon = new ImageIcon(bimage.getScaledInstance(d.width, d.height, Image.SCALE_DEFAULT));
         jPanel.add(new JLabel(imgicon), BorderLayout.PAGE_END);

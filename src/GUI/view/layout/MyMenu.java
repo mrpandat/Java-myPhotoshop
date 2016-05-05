@@ -1,6 +1,7 @@
 package GUI.view.layout;
 
 import GUI.controller.MainController;
+import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 import filter.Filter;
 
@@ -89,13 +90,13 @@ public class MyMenu extends JMenuBar {
         mi = new JMenuItem();
         mi.setText("Undo");
         mi.setMnemonic(KeyEvent.VK_U);
-        mi.addActionListener(e -> MainModel.getInstance().undo());
+        mi.addActionListener(e -> HistoricModel.getInstance().undo());
         edit.add(mi);
 
         mi = new JMenuItem();
         mi.setText("Redo");
         mi.setMnemonic(KeyEvent.VK_R);
-        mi.addActionListener(e -> MainModel.getInstance().redo());
+        mi.addActionListener(e -> HistoricModel.getInstance().redo());
 
         edit.add(mi);
 
