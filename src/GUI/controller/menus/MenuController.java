@@ -153,6 +153,8 @@ public class MenuController {
         fc.setMultiSelectionEnabled(true);
         fc.setFileFilter(new FileFilter() {
                              public boolean accept(File f) {
+                                 if(f.getName().length() < 4)
+                                     return false;
                                  if (f.isDirectory()) {
                                      return true;
                                  } else if (

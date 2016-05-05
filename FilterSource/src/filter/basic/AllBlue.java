@@ -3,6 +3,7 @@ package filter.basic;
 import filter.Filter;
 
 import java.awt.image.BufferedImage;
+import java.awt.Color;
 
 public class AllBlue implements Filter
 {
