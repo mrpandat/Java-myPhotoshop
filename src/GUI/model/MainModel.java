@@ -54,6 +54,7 @@ public class MainModel extends Observable {
         setPrivateImg(img);
     }
 
+    @SuppressWarnings( "deprecation" )
     public void cancelFilter() {
         if (filterThread.isEmpty()) return;
         this.filterThread.get(this.filterThread.size() - 1).stop();

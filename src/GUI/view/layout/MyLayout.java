@@ -18,7 +18,7 @@ public class MyLayout {
         model.mainPanel.add(panelDraw, BorderLayout.CENTER);
 
         /****** MENU *****/
-        MyMenu panelTop = new MyMenu( model.mainPanel, panelDraw);
+        MyMenu panelTop = new MyMenu(model.mainPanel, panelDraw);
         panelTop.generateMenus(controller);
 
         /**** PANEL ****/
@@ -34,21 +34,30 @@ public class MyLayout {
         panelStatus.add(model.statusBar);
 
         model.mainPanel.add(panelStatus, BorderLayout.PAGE_END);
+/*
 
-        JScrollPane scrollPane = new JScrollPane();
-        JList panelHistoric =  model.historicList;
-        panelHistoric.setBackground(new Color(110, 110, 110));
-        panelHistoric.setPreferredSize(new Dimension(200, 0));
+
+        JScrollPane scrollBar = new JScrollPane(panelHistoric);
+        scrollBar.setVisible(true);
+        */
+
+        JPanel panel = new JPanel();
+
+        JList panelHistoric = model.historicList;
+        panelHistoric.setSize(new Dimension(200,0));
+        panelHistoric.setBackground(new Color(150, 150, 150));
         panelHistoric.setBorder((BorderFactory.createLineBorder(Color.black)));
         panelHistoric.setSelectionBackground(Color.LIGHT_GRAY);
         panelHistoric.setCellRenderer(new MyHistoricRender());
-        scrollPane.setViewportView(panelHistoric);
-        model.mainPanel.add(scrollPane, BorderLayout.EAST);
+        JScrollPane spane = new JScrollPane(panelHistoric);
+        spane.getVerticalScrollBar().setMaximumSize(model.mainPanel.getSize());
+        panel.add(spane);
+        model.mainPanel.add(spane, BorderLayout.EAST);
         return;
     }
 
     public JPanel getContent() {
-        return  MainModel.getInstance().mainPanel;
+        return MainModel.getInstance().mainPanel;
     }
 
     public String getName() {
