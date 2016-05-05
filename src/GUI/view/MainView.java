@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.util.Observable;
 import java.util.Observer;
 
+
 public class MainView extends JFrame implements Observer {
     private MyLayout layout;
     private MainController controller;

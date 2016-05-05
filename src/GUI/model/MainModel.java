@@ -12,13 +12,12 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Vector;
 
-
+@SuppressWarnings("unchecked")
 public class MainModel extends Observable {
 
     public JPanel mainPanel;
@@ -30,7 +29,7 @@ public class MainModel extends Observable {
 
     private MainModel() {
         this.historic = new ArrayList<HistoricController>();
-        this.historicList = new JList();
+        this.historicList = new JList<>();
         this.mainPanel = new JPanel();
         this.panelDraw = new JTabbedPane();
         this.statusBar = new JLabel("Welcome to myphotoshop :)");
@@ -82,7 +81,6 @@ public class MainModel extends Observable {
                 }
                 statusBar.setText(getHistoric().getLastHistoricName());
                 setHistoric();
-                historicList.repaint();
             }
         });
 
@@ -93,16 +91,23 @@ public class MainModel extends Observable {
                     redo(historicList.getSelectedIndex());
                 } else if (historicList.getSelectedIndex() < getHistoric().getCurrentId())
                     undo(historicList.getSelectedIndex());
-                if(getHistoric() != null)
-                historicList.setSelectedIndex(getHistoric().getCurrentId());
+                if (getHistoric() != null) {
+                    historicList.setSelectedIndex(getHistoric().getCurrentId());
+                    getImg().repaint();
+                }
             }
         });
 
         historicList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
-                if(e.getValueIsAdjusting()) {
-                    System.out.print("CHANGING");
+                if (e.getValueIsAdjusting()) {
+                    Thread t = new Thread() {
+                        public void run() {
+                            historicList.repaint();
+                        }
+                    };
+                    t.run();
                 }
             }
         });
@@ -197,6 +202,5 @@ public class MainModel extends Observable {
     private String getStatusBar() {
         return this.statusBar.getText();
     }
-
 
 }

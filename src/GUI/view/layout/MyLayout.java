@@ -2,11 +2,11 @@ package GUI.view.layout;
 
 import GUI.controller.MainController;
 import GUI.model.MainModel;
-import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
 
+@SuppressWarnings("unchecked")
 public class MyLayout {
 
 
@@ -35,12 +35,15 @@ public class MyLayout {
 
         model.mainPanel.add(panelStatus, BorderLayout.PAGE_END);
 
+        JScrollPane scrollPane = new JScrollPane();
         JList panelHistoric =  model.historicList;
         panelHistoric.setBackground(new Color(110, 110, 110));
-        panelHistoric.setPreferredSize(new Dimension(150, 0));
+        panelHistoric.setPreferredSize(new Dimension(200, 0));
         panelHistoric.setBorder((BorderFactory.createLineBorder(Color.black)));
         panelHistoric.setSelectionBackground(Color.LIGHT_GRAY);
-        model.mainPanel.add(panelHistoric, BorderLayout.EAST);
+        panelHistoric.setCellRenderer(new MyHistoricRender());
+        scrollPane.setViewportView(panelHistoric);
+        model.mainPanel.add(scrollPane, BorderLayout.EAST);
         return;
     }
 

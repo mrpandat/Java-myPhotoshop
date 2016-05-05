@@ -10,7 +10,6 @@ import filter.Filter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class MainController implements ActionListener {
     public MainView imgv;

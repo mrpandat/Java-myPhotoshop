@@ -1,15 +1,11 @@
 package GUI.view.layout;
 
 
-import GUI.controller.historic.ActionPanel;
 import GUI.controller.panel.ImagePanel;
-import GUI.model.MainModel;
-import main.Main;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
 
 public class ProjectPanel extends JPanel{
 

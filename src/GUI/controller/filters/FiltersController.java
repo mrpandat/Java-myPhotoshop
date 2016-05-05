@@ -1,7 +1,5 @@
 package GUI.controller.filters;
 
-import GUI.model.MainModel;
-
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -11,8 +9,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class FiltersController {
-    public MainModel model = MainModel.getInstance();
-
     public ArrayList<Class> getClasses() {
         return classes;
     }

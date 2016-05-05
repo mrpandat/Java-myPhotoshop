@@ -2,13 +2,15 @@ package GUI.controller.menus;
 
 import GUI.controller.panel.ImagePanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.beans.*;
-import java.awt.Image;
-import java.awt.Dimension;
 import java.awt.*;
-import javax.imageio.*;
-import java.io.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 public class PreviewFileChooser extends JPanel implements PropertyChangeListener {
     private JFileChooser jfc;

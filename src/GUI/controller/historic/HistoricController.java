@@ -3,7 +3,6 @@ package GUI.controller.historic;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 /**
@@ -103,5 +102,9 @@ public class HistoricController implements Serializable{
 
     public int getCurrentId() {
         return this.actions.size() - modify -1;
+    }
+
+    public ActionPanel get(int i ) {
+        return actions.get(i);
     }
 }
