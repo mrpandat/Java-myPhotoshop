@@ -32,7 +32,6 @@ public class MyMenu extends JMenuBar {
         JMenu file = new JMenu();
 
         file.setText("File");
-        file.setMnemonic(KeyEvent.VK_F);
         this.add(file);
 
         JMenuItem mi = new JMenuItem();
@@ -42,21 +41,23 @@ public class MyMenu extends JMenuBar {
 
         mi = new JMenuItem();
         mi.setText("Open");
-        mi.setMnemonic(KeyEvent.VK_N);
         file.add(mi);
         fc = new JFileChooser("~");
 
         mi.addActionListener(e -> controller.menuController.performOpen());
 
         mi = new JMenuItem();
+        mi.setText("Open from clipboard");
+        file.add(mi);
+        mi.addActionListener(e -> controller.menuController.performOpenFromClipboard());
+
+        mi = new JMenuItem();
         mi.setText("Save");
-        mi.setMnemonic(KeyEvent.VK_S);
         file.add(mi);
         mi.addActionListener(e -> controller.menuController.performSave());
 
         mi = new JMenuItem();
         mi.setText("Save As..");
-        mi.setMnemonic(KeyEvent.VK_D);
         file.add(mi);
         mi.addActionListener(e -> controller.menuController.performSaveAs());
 
@@ -64,14 +65,12 @@ public class MyMenu extends JMenuBar {
 
         mi = new JMenuItem();
         mi.setText("Close");
-        mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);
         mi.addActionListener(e -> controller.menuController.performClose());
 
 
         mi = new JMenuItem();
         mi.setText("Close All");
-        mi.setMnemonic(KeyEvent.VK_C);
         file.add(mi);
 
         mi.addActionListener(e -> controller.menuController.performCloseAll());

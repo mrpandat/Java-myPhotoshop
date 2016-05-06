@@ -5,8 +5,14 @@ import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 import GUI.view.layout.ProjectPanel;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
@@ -204,6 +210,30 @@ public class MenuController {
         );
 
         return fc;
+    }
+
+
+    @Deprecated
+    public void performOpenFromClipboard() {
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        try {
+
+            BufferedImage image = (BufferedImage) clipboard.getData(DataFlavor.imageFlavor);
+            String name = (String) (JOptionPane.showInputDialog(MainModel.getInstance().mainPanel,
+                    "name of your project :"));
+            if(name==null|| name.isEmpty()) return;
+            ProjectPanel p = new ProjectPanel(
+                    new ImagePanel(
+                            image,
+                            name + ".myPSD")
+            );
+            model.panelDraw.addTab(name + ".myPSD", p.getContent());
+            model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+        } catch (UnsupportedFlavorException ufe) {
+            ufe.printStackTrace();
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
 
 }
