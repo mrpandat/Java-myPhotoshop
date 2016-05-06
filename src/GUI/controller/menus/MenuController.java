@@ -7,6 +7,7 @@ import GUI.view.layout.ProjectPanel;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -28,42 +29,67 @@ public class MenuController {
         fc.setAccessory(preview);
         if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             for (File file : fc.getSelectedFiles()) {
-                if (file.getName().endsWith(".myPSD")) {
-                    //OPEN A SERIALIZABLE FILE
-                    FileInputStream fin = null;
-                    try {
-
-                        fin = new FileInputStream(file.getPath());
-                        ObjectInputStream ois = new ObjectInputStream(fin);
-                        ImagePanel img = (ImagePanel) ois.readObject();
-
-                        //PREPARE HISTORIC
-                        img.getHistoric().buildImages();
-                        ProjectPanel p = new ProjectPanel(new ImagePanel(img.getHistoric().getHistoricImage(), file.getPath()));
-                        HistoricModel.getInstance().setHistoric(img.getHistoric());
-
-                        model.panelDraw.addTab(file.getName(), p.getContent());
-                        model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
-                        ois.close();
-                        fin.close();
-                    } catch (IOException | ClassNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    ProjectPanel p = new ProjectPanel(file);
-                    model.panelDraw.addTab(file.getName(), p.getContent());
-                    model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+                if (!file.canRead() || !file.canWrite()) {
+                    JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel, "Bad rights for the file " + file.getName());
                 }
+                openFile(file);
             }
         }
 
         model.notifyObservers();
     }
 
+    public void openFile(File file) {
+        if (file.getName().endsWith(".myPSD")) {
+            //OPEN A SERIALIZABLE FILE
+            FileInputStream fin = null;
+            try {
+
+                fin = new FileInputStream(file.getPath());
+                ObjectInputStream ois = new ObjectInputStream(fin);
+                ImagePanel img = (ImagePanel) ois.readObject();
+
+                //PREPARE HISTORIC
+                img.getHistoric().buildImages();
+                ProjectPanel p = new ProjectPanel(new ImagePanel(img.getHistoric().getHistoricImage(), file.getPath()));
+                HistoricModel.getInstance().setHistoric(img.getHistoric());
+
+                model.panelDraw.addTab(file.getName(), p.getContent());
+                model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+                ois.close();
+                fin.close();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                ProjectPanel p = new ProjectPanel(file);
+                model.panelDraw.addTab(file.getName(), p.getContent());
+                model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel, "This file is corrupted, or not at the good format " + file.getName());
+            }
+        }
+    }
+
+    public void createProject() {
+        String name = (String) (JOptionPane.showInputDialog(MainModel.getInstance().mainPanel,
+                "name of your project :"));
+        if(name==null|| name.isEmpty()) return;
+        ProjectPanel p = new ProjectPanel(
+                new ImagePanel(
+                        new BufferedImage(500, 500, 2),
+                        name + ".myPSD")
+        );
+        model.panelDraw.addTab(name + ".myPSD", p.getContent());
+        model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+
+    }
+
     public void performCloseAll() {
         HistoricModel.getInstance().deleteAllHistoric();
         while (model.panelDraw.getTabCount() > 0) {
-           performClose();
+            performClose();
         }
         model.notifyObservers();
     }
@@ -79,6 +105,11 @@ public class MenuController {
 
     public void performSave() {
         if (model.panelDraw.getTabCount() <= 0) return;
+        File f = new File(MainModel.getInstance().getImg().getFileName());
+        if (!f.exists()) {
+            performSaveAs();
+            return;
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput oos = null;
         String s = MainModel.getInstance().getImg().getFileName();
@@ -122,7 +153,7 @@ public class MenuController {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutput oos = null;
-        if (fc.showOpenDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
+        if (fc.showSaveDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             try {
 
                 MainModel.getInstance().getImg().setHistoric();
@@ -132,15 +163,15 @@ public class MenuController {
                 byte[] data = bos.toByteArray();
 
                 //save the bytes
-                FileOutputStream out = new FileOutputStream(fc.getSelectedFile().getPath());
+                FileOutputStream out = new FileOutputStream(fc.getSelectedFile().getPath() + ".myPSD");
                 out.write(data);
                 out.flush();
                 oos.flush();
                 oos.close();
                 out.close();
 
-                model.setStatusBar("Save");
-
+                model.setStatusBar("Save as");
+                model.getImg().setName(fc.getSelectedFile().getName() + ".myPSD");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -153,14 +184,14 @@ public class MenuController {
         fc.setMultiSelectionEnabled(true);
         fc.setFileFilter(new FileFilter() {
                              public boolean accept(File f) {
-                                 if(f.getName().length() < 4)
+                                 if (f.getName().length() < 5 && !f.getName().contains("."))
                                      return false;
                                  if (f.isDirectory()) {
                                      return true;
                                  } else if (
                                          filters.contains(f.getName().substring(f.getName().length() - 4, f.getName().length()))) {
                                      return true;
-                                 }else if (
+                                 } else if (
                                          filters.contains(f.getName().substring(f.getName().length() - 6, f.getName().length()))) {
                                      return true;
                                  } else return false;

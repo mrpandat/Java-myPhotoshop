@@ -36,6 +36,11 @@ public class MyMenu extends JMenuBar {
         this.add(file);
 
         JMenuItem mi = new JMenuItem();
+        mi.setText("Create");
+        file.add(mi);
+        mi.addActionListener(e -> controller.menuController.createProject());
+
+        mi = new JMenuItem();
         mi.setText("Open");
         mi.setMnemonic(KeyEvent.VK_N);
         file.add(mi);
