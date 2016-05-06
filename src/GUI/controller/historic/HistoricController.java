@@ -82,6 +82,11 @@ public class HistoricController implements Serializable {
         return this.actions.get(i).getName();
     }
 
+    public BufferedImage getLastHistoricImage() {
+        int i = this.actions.size() - modify - 1;
+        return this.actions.get(i).getImg();
+    }
+
     public Vector<String> getActionsNames() {
         Vector<String> actionsNames = new Vector<String>();
         for (ActionPanel action : this.actions) {

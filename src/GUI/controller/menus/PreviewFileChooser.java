@@ -1,5 +1,6 @@
 package GUI.controller.menus;
 
+import GUI.controller.historic.HistoricController;
 import GUI.controller.panel.ImagePanel;
 
 import javax.imageio.ImageIO;
@@ -47,7 +48,7 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
     }
 
     public void paintComponent(Graphics g) {
-        g.setColor(new Color(110,110,110));
+        g.setColor(new Color(110, 110, 110));
 
         g.fillRect(0, 0, getWidth(), getHeight());
         if (img == null) {
@@ -58,15 +59,15 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
         } else {
             int height = img.getHeight(null);
             int width = img.getWidth(null);
-            if(height > 350 || width > 350) {
-                if(width > height) {
-                    float ratio = (100*350)/width;
+            if (height > 350 || width > 350) {
+                if (width > height) {
+                    float ratio = (100 * 350) / width;
                     width = 350;
-                    height = (int)(height*ratio)/100;
-                } else if(height > width) {
-                    float ratio = (100*350)/height;
+                    height = (int) (height * ratio) / 100;
+                } else if (height > width) {
+                    float ratio = (100 * 350) / height;
                     height = 350;
-                    width = (int)(width*ratio)/100;
+                    width = (int) (width * ratio) / 100;
                 } else {
                     height = 350;
                     width = 350;
@@ -80,16 +81,18 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
     public Image myFileToImage(File file) {
         FileInputStream fin = null;
         ImagePanel img = null;
+        Image res = null;
         try {
             fin = new FileInputStream(file.getPath());
             ObjectInputStream ois = new ObjectInputStream(fin);
             img = (ImagePanel) ois.readObject();
-            img.buildImage();
+            img.historic.buildImages();
+            res = img.historic.getLastHistoricImage();
             ois.close();
             fin.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-        return img.getImage();
+        return res;
     }
 }
