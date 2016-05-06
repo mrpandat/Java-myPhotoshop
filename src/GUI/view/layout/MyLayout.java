@@ -7,6 +7,8 @@ import GUI.model.MainModel;
 import javax.swing.*;
 import java.awt.*;
 
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+
 @SuppressWarnings("unchecked")
 public class MyLayout {
 
@@ -46,6 +48,7 @@ public class MyLayout {
         panelHistoric.setCellRenderer(new MyHistoricRender());
         JScrollPane spane = new JScrollPane(panelHistoric);
         spane.getVerticalScrollBar().setMaximumSize(model.mainPanel.getSize());
+        spane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         model.mainPanel.add(spane, BorderLayout.EAST);
         return;
     }
