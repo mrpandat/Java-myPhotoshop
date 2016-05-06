@@ -20,6 +20,7 @@ public class ImagePanel extends JPanel implements Serializable
 {
     private static final long serialVersionUID = -314159265358979323L;
     private String fileName;
+    public transient int modify;
     private final int width;
     private final int height;
     private final int imageType;
@@ -37,6 +38,7 @@ public class ImagePanel extends JPanel implements Serializable
     {
         fileName = name;
         this.image = image;
+        this.modify = 0;
         width = image.getWidth();
         height = image.getHeight();
         imageType = image.getType();
@@ -96,6 +98,7 @@ public class ImagePanel extends JPanel implements Serializable
 
     public void setImage(BufferedImage image)
     {
+        this.modify = 1;
         this.image = image;
     }
 

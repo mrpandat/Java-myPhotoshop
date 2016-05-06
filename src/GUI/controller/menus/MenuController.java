@@ -62,6 +62,7 @@ public class MenuController {
 
                 model.panelDraw.addTab(file.getName(), p.getContent());
                 model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+                model.getImg().modify = 0;
                 ois.close();
                 fin.close();
             } catch (IOException | ClassNotFoundException e) {
@@ -89,6 +90,7 @@ public class MenuController {
         );
         model.panelDraw.addTab(name + ".myPSD", p.getContent());
         model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+        model.getImg().modify = 0;
 
     }
 
@@ -144,6 +146,7 @@ public class MenuController {
             out.close();
 
             model.setStatusBar("Save");
+            model.getImg().modify = 0;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -178,6 +181,7 @@ public class MenuController {
 
                 model.setStatusBar("Save as");
                 model.getImg().setName(fc.getSelectedFile().getName() + ".myPSD");
+                model.getImg().modify = 0;
             } catch (IOException e) {
                 e.printStackTrace();
             }
