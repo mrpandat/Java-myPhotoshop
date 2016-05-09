@@ -2,6 +2,7 @@ package GUI.controller.historic;
 
 import GUI.controller.panel.ImagePanel;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
@@ -14,8 +15,8 @@ public class ActionPanel implements Serializable {
     public transient BufferedImage img;
 
     public ActionPanel(String name,BufferedImage img) {
+        copyImage(img);
         this.name = name;
-        this.img = img;
         this.imgp = new ImagePanel(img, name);
     }
 
@@ -28,5 +29,13 @@ public class ActionPanel implements Serializable {
     }
     public String getName() {
         return name;
+    }
+
+    public void copyImage(BufferedImage source) {
+        BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
+        Graphics g = b.getGraphics();
+        g.drawImage(source, 0, 0, null);
+        g.dispose();
+        this.img = b;
     }
 }
