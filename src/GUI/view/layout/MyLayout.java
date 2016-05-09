@@ -15,8 +15,9 @@ public class MyLayout {
 
     public void generateLayout(MainController controller) {
         MainModel model = MainModel.getInstance();
-        JTabbedPane panelDraw = model.panelDraw;
         model.mainPanel.setLayout(new BorderLayout());
+
+        JTabbedPane panelDraw = model.panelDraw;
         panelDraw.setPreferredSize(new Dimension(1000, 600));
         model.mainPanel.add(panelDraw, BorderLayout.CENTER);
 
@@ -38,18 +39,25 @@ public class MyLayout {
 
         model.mainPanel.add(panelStatus, BorderLayout.PAGE_END);
 
-        //historic panel
+        /**** HISTORIC ****/
 
         JList panelHistoric = HistoricModel.getInstance().historicList;
         panelHistoric.setSize(new Dimension(200,0));
         panelHistoric.setBackground(new Color(150, 150, 150));
-        panelHistoric.setBorder((BorderFactory.createLineBorder(Color.black)));
         panelHistoric.setSelectionBackground(Color.LIGHT_GRAY);
         panelHistoric.setCellRenderer(new MyHistoricRender());
         JScrollPane spane = new JScrollPane(panelHistoric);
         spane.getVerticalScrollBar().setMaximumSize(model.mainPanel.getSize());
         spane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         model.mainPanel.add(spane, BorderLayout.EAST);
+
+        /** TOOLBAR **/
+        MyToolbar toolbar = new MyToolbar(model.mainPanel);
+        toolbar.generateButtons();
+        toolbar.setPreferredSize(new Dimension(200, 0));
+        toolbar.setBackground(new Color(150, 150, 150));
+
+        model.mainPanel.add(toolbar, BorderLayout.WEST);
         return;
     }
 

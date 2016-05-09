@@ -53,7 +53,6 @@ public class MainModel extends Observable {
         if (HistoricModel.getInstance().getHistoric().isEmpty()) return;
         if (this.panelDraw.getTabCount() <= 0) return;
         HistoricModel.getInstance().getHistoric().add(action);
-
         setPrivateImg(img);
     }
 
@@ -74,7 +73,6 @@ public class MainModel extends Observable {
         getImg().setImage(img);
         notifyObservers();
         setChanged();
-
         statusBar.setText(HistoricModel.getInstance().getHistoric().getLastHistoricName());
         HistoricModel.getInstance().setHistoric();
     }

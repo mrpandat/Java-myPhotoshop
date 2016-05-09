@@ -30,7 +30,7 @@ public class MainController implements ActionListener {
             public void run() {
                 this.setName(f.getName());
                 BufferedImage bi = f.perform(m.getImg().getImage());
-                m.setImg(bi, new ActionPanel(f.getName(), bi));
+                applyModification(bi, new ActionPanel(f.getName(), bi));
                 m.notifyObservers();
                 model.filterThread.remove(this);
             }
@@ -39,6 +39,15 @@ public class MainController implements ActionListener {
         t.start();
 
     }
+
+
+    public static void  applyModification(BufferedImage bi, ActionPanel a) {
+        MainModel m = MainModel.getInstance();
+        if (m.panelDraw.getTabCount() <= 0) return;
+        m.setImg(bi, a);
+        m.notifyObservers();
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
