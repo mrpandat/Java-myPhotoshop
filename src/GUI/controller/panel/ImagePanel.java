@@ -3,6 +3,7 @@ package GUI.controller.panel;
 import GUI.controller.MainController;
 import GUI.controller.historic.ActionPanel;
 import GUI.controller.historic.HistoricController;
+import GUI.model.DrawModel;
 import GUI.model.HistoricModel;
 
 import javax.imageio.ImageIO;
@@ -142,9 +143,10 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
 
     @Override
     public void mouseDragged(MouseEvent e) {
+        DrawModel model = DrawModel.getInstance();
         dragged = true;
         Graphics g = image.getGraphics();
-        g.setColor(Color.blue);
+        g.setColor(model.getColor());
         Point p = e.getPoint();
         g.fillOval(p.x, p.y, 5, 5);
         g.dispose();

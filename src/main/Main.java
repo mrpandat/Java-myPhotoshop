@@ -14,7 +14,7 @@ public class Main {
 
         MainView view = new MainView();
         MainController controller = new MainController(view);
-
+        MainModel.getInstance().setMainView(view);
         view.addActionsListeners(controller);
         final JPanel panel = view.getContent();
         final String title = "treibe_a";

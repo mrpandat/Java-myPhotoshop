@@ -2,6 +2,7 @@ package GUI.model;
 
 import GUI.controller.historic.ActionPanel;
 import GUI.controller.panel.ImagePanel;
+import GUI.view.MainView;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -22,6 +23,9 @@ public class MainModel extends Observable {
     public JTabbedPane panelDraw;
     public JLabel statusBar;
     public ArrayList<Thread> filterThread = new ArrayList<Thread>();
+
+
+    public MainView mainView;
 
     private MainModel() {
         this.mainPanel = new JPanel();
@@ -104,6 +108,9 @@ public class MainModel extends Observable {
 
     public String getStatusBar() {
         return this.statusBar.getText();
+    }
+    public void setMainView(MainView mainView) {
+        this.mainView = mainView;
     }
 
 }
