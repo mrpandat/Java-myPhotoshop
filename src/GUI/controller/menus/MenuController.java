@@ -5,13 +5,11 @@ import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 import GUI.view.layout.ProjectPanel;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -82,7 +80,7 @@ public class MenuController {
     public void createProject() {
         String name = (String) (JOptionPane.showInputDialog(MainModel.getInstance().mainPanel,
                 "name of your project :"));
-        if(name==null|| name.isEmpty()) return;
+        if (name == null || name.isEmpty()) return;
         ProjectPanel p = new ProjectPanel(
                 new ImagePanel(
                         new BufferedImage(500, 500, 2),
@@ -113,7 +111,7 @@ public class MenuController {
 
     public void performSave() {
         if (model.panelDraw.getTabCount() <= 0) return;
-        File f = new File(MainModel.getInstance().getImg().getFileName());
+        File f = new File(MainModel.getInstance().getImg().path);
         if (!f.exists()) {
             performSaveAs();
             return;
@@ -165,14 +163,21 @@ public class MenuController {
         if (fc.showSaveDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             try {
 
-                MainModel.getInstance().getImg().setHistoric();
-                //get obj as bytes
+                model.getImg().setHistoric();
+                model.getImg().path = fc.getSelectedFile().getPath() + ".myPSD";
+                model.getImg().setName(fc.getName());
+
+                        //get obj as bytes
                 oos = new ObjectOutputStream(bos);
                 oos.writeObject(MainModel.getInstance().getImg());
                 byte[] data = bos.toByteArray();
 
                 //save the bytes
-                FileOutputStream out = new FileOutputStream(fc.getSelectedFile().getPath() + ".myPSD");
+                FileOutputStream out;
+                if (fc.getSelectedFile().getPath().endsWith(".myPSD"))
+                    out = new FileOutputStream(fc.getSelectedFile().getPath());
+                else
+                    out = new FileOutputStream(fc.getSelectedFile().getPath() + ".myPSD");
                 out.write(data);
                 out.flush();
                 oos.flush();
@@ -225,7 +230,7 @@ public class MenuController {
             BufferedImage image = (BufferedImage) clipboard.getData(DataFlavor.imageFlavor);
             String name = (String) (JOptionPane.showInputDialog(MainModel.getInstance().mainPanel,
                     "name of your project :"));
-            if(name==null|| name.isEmpty()) return;
+            if (name == null || name.isEmpty()) return;
             ProjectPanel p = new ProjectPanel(
                     new ImagePanel(
                             image,
@@ -233,10 +238,11 @@ public class MenuController {
             );
             model.panelDraw.addTab(name + ".myPSD", p.getContent());
             model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
-        } catch (UnsupportedFlavorException ufe) {
-            ufe.printStackTrace();
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
+        } catch (UnsupportedFlavorException e) {
+            JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel,
+                    "Your clipboard must have an image in it");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

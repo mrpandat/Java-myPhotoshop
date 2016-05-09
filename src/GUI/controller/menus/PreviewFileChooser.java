@@ -1,6 +1,5 @@
 package GUI.controller.menus;
 
-import GUI.controller.historic.HistoricController;
 import GUI.controller.panel.ImagePanel;
 
 import javax.imageio.ImageIO;

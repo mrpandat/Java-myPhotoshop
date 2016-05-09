@@ -2,7 +2,6 @@ package GUI.controller.panel;
 
 import GUI.controller.historic.HistoricController;
 import GUI.model.HistoricModel;
-import GUI.model.MainModel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,6 +19,7 @@ public class ImagePanel extends JPanel implements Serializable
 {
     private static final long serialVersionUID = -314159265358979323L;
     private String fileName;
+    public String path = "";
     public transient int modify;
     private final int width;
     private final int height;

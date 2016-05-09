@@ -1,12 +1,10 @@
 package GUI.view.layout;
 
 import GUI.model.HistoricModel;
-import GUI.model.MainModel;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 public class MyHistoricRender implements ListCellRenderer {
 

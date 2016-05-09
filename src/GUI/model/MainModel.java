@@ -1,7 +1,6 @@
 package GUI.model;
 
 import GUI.controller.historic.ActionPanel;
-
 import GUI.controller.panel.ImagePanel;
 
 import javax.swing.*;

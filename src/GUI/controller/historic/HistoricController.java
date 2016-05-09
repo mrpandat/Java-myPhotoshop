@@ -1,8 +1,5 @@
 package GUI.controller.historic;
 
-import GUI.model.HistoricModel;
-import GUI.model.MainModel;
-
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;

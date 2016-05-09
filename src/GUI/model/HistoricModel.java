@@ -1,6 +1,5 @@
 package GUI.model;
 
-import GUI.controller.historic.ActionPanel;
 import GUI.controller.historic.HistoricController;
 
 import javax.swing.*;
