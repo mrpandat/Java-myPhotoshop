@@ -148,7 +148,7 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         Graphics g = image.getGraphics();
         g.setColor(model.getColor());
         Point p = e.getPoint();
-        g.fillOval(p.x, p.y, 5, 5);
+        g.fillOval(p.x, p.y, model.getSize(), model.getSize());
         g.dispose();
         repaint();
     }

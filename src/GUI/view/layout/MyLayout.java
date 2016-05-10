@@ -51,11 +51,12 @@ public class MyLayout {
         spane.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
         model.mainPanel.add(spane, BorderLayout.EAST);
 
+
         /** TOOLBAR **/
         MyToolbar toolbar = new MyToolbar(model.mainPanel);
         toolbar.generateButtons();
         toolbar.setPreferredSize(new Dimension(200, 0));
-        toolbar.setBackground(new Color(150, 150, 150));
+        toolbar.setBackground(new Color(200, 200, 200));
 
         model.mainPanel.add(toolbar, BorderLayout.WEST);
         return;

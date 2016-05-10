@@ -45,10 +45,13 @@ public class HistoricController implements Serializable {
             actions.add(a);
             return;
         }
-
-        this.actions = new ArrayList<ActionPanel>(this.actions.subList(0, this.actions.size() - modify));
+        //This line is here to fix a reference bug
+        actions.add(0,new ActionPanel(getLastHistoricName(),getHistoricImage()));
+        this.actions = new ArrayList<ActionPanel>(this.actions.subList(1, this.actions.size() - modify));
         modify = 0;
         this.actions.add(a);
+        buildImages();
+        return;
 
     }
 
@@ -125,4 +128,5 @@ public class HistoricController implements Serializable {
         else this.actions = new ArrayList<>(this.actions.subList(0, i));
         modify = 0;
     }
+
 }

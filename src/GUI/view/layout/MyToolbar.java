@@ -13,7 +13,7 @@ public class MyToolbar extends JPanel {
     MyToolbar(JPanel mainPanel) {
         this.mainPanel = mainPanel;
         this.drawPanel.setLayout(new BorderLayout());
-        this.drawPanel.setSize(100,0);
+
         drawPanel.setVisible(false);
 
     }
@@ -44,9 +44,11 @@ public class MyToolbar extends JPanel {
     }
 
     public void generateDrawMenu() {
-
         JPanel jPanel = new JPanel();
+
         JLabel color = new JLabel("Your color");
+        jPanel.add(color);
+
         JButton drawbutton = new JButton();
         drawbutton.setText("Choose your color");
         drawbutton.addActionListener(e -> {
@@ -54,10 +56,22 @@ public class MyToolbar extends JPanel {
                     jPanel.setBackground(DrawModel.getInstance().getColor());
                 }
         );
-        drawPanel.add(drawbutton,BorderLayout.NORTH);
-        jPanel.add(color);
-        drawPanel.add(jPanel,BorderLayout.SOUTH);
+
+        JSlider size = new JSlider(JSlider.HORIZONTAL,1,10,5);
+        size.setMajorTickSpacing(9);
+        size.setMinorTickSpacing(1);
+        size.setPaintTicks(true);
+        size.setPaintLabels(true);
+        size.addChangeListener( e -> {
+            DrawModel.getInstance().setSize(size.getValue());
+        });
+
+        drawPanel.add(drawbutton, BorderLayout.NORTH);
+        drawPanel.add(jPanel);
+        drawPanel.add(size, BorderLayout.SOUTH);
+
         add(drawPanel);
+
     }
 
 

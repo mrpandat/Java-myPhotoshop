@@ -17,7 +17,7 @@ public class ActionPanel implements Serializable {
     public ActionPanel(String name,BufferedImage img) {
         copyImage(img);
         this.name = name;
-        this.imgp = new ImagePanel(img, name);
+        this.imgp = new ImagePanel(this.img, name);
     }
 
     public void rebuildImages() {
