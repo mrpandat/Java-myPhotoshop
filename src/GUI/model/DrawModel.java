@@ -13,6 +13,8 @@ public class DrawModel {
     Color color = Color.white;
     String type = "";
 
+    String shape = "";
+
     private static DrawModel INSTANCE = new DrawModel();
 
     public static DrawModel getInstance() {
@@ -59,4 +61,14 @@ public class DrawModel {
     public Color getColor() {
         return color;
     }
+
+
+    public String getShape() {
+        return shape;
+    }
+
+    public void setShape(String shape) {
+        this.shape = shape;
+    }
+
 }

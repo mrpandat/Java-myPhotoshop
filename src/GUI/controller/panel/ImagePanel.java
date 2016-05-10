@@ -150,9 +150,15 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         Point p = e.getPoint();
         switch (model.getType()) {
             case "draw":
-                g.fillOval(p.x, p.y, model.getSize(), model.getSize());
+                if(model.getShape().equals("Oval"))
+                    g.fillOval(p.x, p.y, model.getSize(), model.getSize());
+                else if(model.getShape().equals("Square"))
+                    g.fillRect(p.x, p.y, model.getSize(), model.getSize());
+                else if(model.getShape().equals("Rectangle"))
+                    g.fillRect(p.x, p.y, model.getSize() * 2, model.getSize());
                 break;
             case "erase":
+
                 g.setColor(new Color(255,255,255,model.getOpacity()));
                 g.fillOval(p.x, p.y, model.getSize(), model.getSize());
                 break;
@@ -167,8 +173,8 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!mouseIn || !dragged) return;
-        MainController.applyModification(image,new ActionPanel("Draw", image));
+        if (!mouseIn || !dragged || DrawModel.getInstance().getShape().isEmpty()) return;
+        MainController.applyModification(image,new ActionPanel(DrawModel.getInstance().getType(), image));
         dragged = false;
     }
 
