@@ -9,7 +9,7 @@ public class DrawModel {
 
 
     int size = 5;
-    int opacity = 1;
+    int opacity = 50;
     Color color = Color.white;
     String type = "";
 
@@ -21,6 +21,12 @@ public class DrawModel {
 
     private DrawModel() {}
 
+    public void reset() {
+         size = 5;
+         opacity = 50;
+         color = Color.white;
+         type = "";
+    }
 
     public void setType(String type) {
         this.type = type;
