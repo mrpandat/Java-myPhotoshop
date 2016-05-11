@@ -14,6 +14,9 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 
 public class MenuController {
@@ -49,6 +52,7 @@ public class MenuController {
             FileInputStream fin = null;
             try {
 
+                //file = performUncompress(file);
                 fin = new FileInputStream(file.getPath());
                 ObjectInputStream ois = new ObjectInputStream(fin);
                 ImagePanel img = (ImagePanel) ois.readObject();
@@ -72,6 +76,7 @@ public class MenuController {
                 ProjectPanel p = new ProjectPanel(file);
                 model.panelDraw.addTab(file.getName(), p.getContent());
                 model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
+                model.getImg().path = file.getPath().substring(0, file.getPath().length() - 4) + ".myPSD";
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel, "This file is corrupted, or not at the good format " + file.getName());
             }
@@ -145,6 +150,8 @@ public class MenuController {
             oos.close();
             out.close();
 
+            //performCompress(new File(s));
+
             model.setStatusBar("Save");
             model.getImg().modify = 0;
         } catch (IOException e) {
@@ -168,27 +175,40 @@ public class MenuController {
                 ImagePanel imgp = model.getImg();
                 imgp.setHistoric();
                 imgp.path = fc.getSelectedFile().getPath();
-                if(!fc.getSelectedFile().getPath().endsWith(".myPSD"))
+                if (!fc.getSelectedFile().getPath().endsWith(".myPSD"))
                     imgp.path += ".myPSD";
                 imgp.setName(fc.getName());
 
-                        //get obj as bytes
+                //get obj as bytes
                 oos = new ObjectOutputStream(bos);
                 oos.writeObject(imgp);
                 byte[] data = bos.toByteArray();
 
                 //save the bytes
                 FileOutputStream out;
-                if (fc.getSelectedFile().getPath().endsWith(".myPSD"))
-                    out = new FileOutputStream(fc.getSelectedFile().getPath());
-                else
-                    out = new FileOutputStream(fc.getSelectedFile().getPath() + ".myPSD");
+                String fpath;
+                String fname;
+                if (fc.getSelectedFile().getPath().endsWith(".myPSD")) {
+                    fpath = (fc.getSelectedFile().getPath());
+                    fname = (fc.getSelectedFile().getName());
+
+                } else {
+                    fpath = (fc.getSelectedFile().getPath() + ".myPSD");
+                    fname = (fc.getSelectedFile().getName() + ".myPSD");
+
+                }
+
+                out = new FileOutputStream(fpath + ".temp");
+
+                //closing
                 out.write(data);
                 out.flush();
                 oos.flush();
                 oos.close();
                 out.close();
 
+
+                performCompress(new File(fpath + ".temp"), fpath, fname);
                 model.setStatusBar("Save as");
                 model.getImg().setName(fc.getSelectedFile().getName() + ".myPSD");
                 model.getImg().modify = 0;
@@ -196,6 +216,65 @@ public class MenuController {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void performCompress(File temp, String fpath, String fname) {
+
+        byte[] buffer = new byte[1024];
+
+        try {
+
+            FileOutputStream fos = new FileOutputStream(fpath);
+            ZipOutputStream zos = new ZipOutputStream(fos);
+            ZipEntry ze = new ZipEntry(fname);
+
+            zos.putNextEntry(ze);
+            FileInputStream in = new FileInputStream(temp.getPath());
+            int len;
+            while ((len = in.read(buffer)) > 0) {
+                zos.write(buffer, 0, len);
+            }
+
+            in.close();
+            zos.closeEntry();
+            zos.close();
+            temp.delete();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public File performUncompress(File f) {
+
+        byte[] buffer = new byte[1024];
+        File newFile = new File("");
+        try {
+            ZipInputStream zis = new ZipInputStream(new FileInputStream(f));
+            ZipEntry ze = zis.getNextEntry();
+
+            if (ze != null) {
+
+                String fileName = ze.getName();
+                newFile = new File(fileName);
+                FileOutputStream fos = new FileOutputStream(newFile);
+
+                int len;
+                while ((len = zis.read(buffer)) > 0) {
+                    fos.write(buffer, 0, len);
+                }
+
+                fos.close();
+            }
+
+            zis.closeEntry();
+            zis.close();
+
+            return newFile;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return newFile;
     }
 
     public JFileChooser getFileChooser(ArrayList<String> filters) {
