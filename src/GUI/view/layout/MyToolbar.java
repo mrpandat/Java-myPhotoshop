@@ -71,7 +71,7 @@ public class MyToolbar extends JPanel {
             DrawModel.getInstance().setType("text");
             textPanel.setVisible(true);
         });
-        add(drawbutton);
+        //add(drawbutton);
 
 
         setVisible(true);
@@ -125,8 +125,8 @@ public class MyToolbar extends JPanel {
 
     public JSlider getSizeChooser() {
 
-        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 1, 10, 5);
-        sizeChooser.setMajorTickSpacing(9);
+        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);
+        sizeChooser.setMajorTickSpacing(25);
         sizeChooser.setMinorTickSpacing(1);
         sizeChooser.setPaintTicks(true);
         sizeChooser.setPaintLabels(true);
@@ -177,6 +177,7 @@ public class MyToolbar extends JPanel {
         DrawModel.getInstance().reset();
         drawPanel.setVisible(false);
         erasePanel.setVisible(false);
+        textPanel.setVisible(false);
     }
 
 }
