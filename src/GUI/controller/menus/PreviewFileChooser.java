@@ -78,6 +78,7 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
 
 
     public Image myFileToImage(File file) {
+        file = MenuController.performUncompress(file);
         FileInputStream fin = null;
         ImagePanel img = null;
         Image res = null;
@@ -92,6 +93,7 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+        file.delete();
         return res;
     }
 }

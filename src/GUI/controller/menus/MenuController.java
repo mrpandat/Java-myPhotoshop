@@ -52,7 +52,7 @@ public class MenuController {
             FileInputStream fin = null;
             try {
 
-                //file = performUncompress(file);
+                file = performUncompress(file);
                 fin = new FileInputStream(file.getPath());
                 ObjectInputStream ois = new ObjectInputStream(fin);
                 ImagePanel img = (ImagePanel) ois.readObject();
@@ -68,6 +68,7 @@ public class MenuController {
                 model.getImg().path = file.getPath();
                 ois.close();
                 fin.close();
+                file.delete();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -135,7 +136,6 @@ public class MenuController {
             }
 
 
-            MainModel.getInstance().getImg().path = s;
             MainModel.getInstance().getImg().setHistoric();
             //get obj as bytes
             oos = new ObjectOutputStream(bos);
@@ -143,6 +143,7 @@ public class MenuController {
             byte[] data = bos.toByteArray();
 
             //save the bytes
+            s += ".temp";
             FileOutputStream out = new FileOutputStream(s);
             out.write(data);
             out.flush();
@@ -150,7 +151,7 @@ public class MenuController {
             oos.close();
             out.close();
 
-            //performCompress(new File(s));
+            performCompress(new File(s), model.getImg().path , f.getName());
 
             model.setStatusBar("Save");
             model.getImg().modify = 0;
@@ -245,7 +246,7 @@ public class MenuController {
         }
     }
 
-    public File performUncompress(File f) {
+    public static File performUncompress(File f) {
 
         byte[] buffer = new byte[1024];
         File newFile = new File("");
