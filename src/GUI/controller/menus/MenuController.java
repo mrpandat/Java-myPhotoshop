@@ -61,6 +61,7 @@ public class MenuController {
                 model.panelDraw.addTab(file.getName(), p.getContent());
                 model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
                 model.getImg().modify = 0;
+                model.getImg().path = file.getPath();
                 ois.close();
                 fin.close();
             } catch (IOException | ClassNotFoundException e) {
@@ -129,6 +130,7 @@ public class MenuController {
             }
 
 
+            MainModel.getInstance().getImg().path = s;
             MainModel.getInstance().getImg().setHistoric();
             //get obj as bytes
             oos = new ObjectOutputStream(bos);
@@ -163,13 +165,16 @@ public class MenuController {
         if (fc.showSaveDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             try {
 
-                model.getImg().setHistoric();
-                model.getImg().path = fc.getSelectedFile().getPath() + ".myPSD";
-                model.getImg().setName(fc.getName());
+                ImagePanel imgp = model.getImg();
+                imgp.setHistoric();
+                imgp.path = fc.getSelectedFile().getPath();
+                if(!fc.getSelectedFile().getPath().endsWith(".myPSD"))
+                    imgp.path += ".myPSD";
+                imgp.setName(fc.getName());
 
                         //get obj as bytes
                 oos = new ObjectOutputStream(bos);
-                oos.writeObject(MainModel.getInstance().getImg());
+                oos.writeObject(imgp);
                 byte[] data = bos.toByteArray();
 
                 //save the bytes
