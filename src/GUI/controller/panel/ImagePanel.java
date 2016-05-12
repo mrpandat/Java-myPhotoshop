@@ -127,10 +127,9 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     }
 
 
-
     @Override
     public void mouseMoved(MouseEvent e) {
-        if(e.getX() > 0 && e.getX()<image.getWidth() && e.getY() > 0 && e.getY() < image.getHeight())
+        if (e.getX() > 0 && e.getX() < image.getWidth() && e.getY() > 0 && e.getY() < image.getHeight())
             mouseIn = true;
         else
             mouseIn = false;
@@ -139,8 +138,23 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     @Override
     public void mouseClicked(MouseEvent e) {
         DrawModel model = DrawModel.getInstance();
-        if(!model.getType().equals("polygon")) return;
-
+        if (!model.getType().equals("polygon")) {
+            model.addPoint(e.getPoint());
+            return;
+        }
+        //if polygon is not selected, reset all point
+        if(model.getClickPoints().size() > 1) model.resetPoint();
+        if (model.getClickPoints().isEmpty()) {
+            model.addPoint(e.getPoint());
+            return;
+        }
+        Graphics g = image.getGraphics();
+        g.setColor(model.getColor());
+        drawRectangle(e.getPoint(), model.getClickPoints().get(0),g);
+        g.dispose();
+        repaint();
+        model.resetPoint();
+        MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
     }
 
     @Override
@@ -152,16 +166,16 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         Point p = e.getPoint();
         switch (model.getType()) {
             case "draw":
-                if(model.getShape().equals("Oval"))
+                if (model.getShape().equals("Oval"))
                     g.fillOval(p.x, p.y, model.getSize(), model.getSize());
-                else if(model.getShape().equals("Square"))
+                else if (model.getShape().equals("Square"))
                     g.fillRect(p.x, p.y, model.getSize(), model.getSize());
-                else if(model.getShape().equals("Rectangle"))
+                else if (model.getShape().equals("Rectangle"))
                     g.fillRect(p.x, p.y, model.getSize() * 2, model.getSize());
                 break;
             case "erase":
 
-                g.setColor(new Color(255,255,255,model.getOpacity()));
+                g.setColor(new Color(255, 255, 255, model.getOpacity()));
                 g.fillOval(p.x, p.y, model.getSize(), model.getSize());
                 break;
         }
@@ -176,18 +190,33 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!mouseIn || !dragged || DrawModel.getInstance().getShape().isEmpty()) return;
-        MainController.applyModification(image,new ActionPanel(DrawModel.getInstance().getType(), image));
+        MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
         dragged = false;
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {
-    }
+    public void mouseEntered(MouseEvent e) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {
+    public void mouseExited(MouseEvent e) {}
+    
+    public void drawRectangle(Point p1, Point p2, Graphics g) {
+        Rectangle rect= new Rectangle(p1);
+        rect.add(p2);
+        DrawModel model = DrawModel.getInstance();
+        switch (model.getShape()) {
+            case "Rectangle":
+                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height,model.getSize(),model.getSize());
+                break;
+            case "Oval":
+                g.fillOval(rect.x, rect.y, rect.width, rect.height);
+                break;
+
+        }
     }
 
+    public void drawPolygon(Graphics g) {
 
+    }
 
 }

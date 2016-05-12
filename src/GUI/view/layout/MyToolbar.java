@@ -23,7 +23,7 @@ public class MyToolbar extends JPanel {
         drawPanel.setPreferredSize(new Dimension(200, 500));
         erasePanel.setPreferredSize(new Dimension(200, 500));
         textPanel.setPreferredSize(new Dimension(200, 500));
-        textPanel.setPreferredSize(new Dimension(200, 500));
+        polygonPanel.setPreferredSize(new Dimension(200, 500));
 
         erasePanel.setBorder(new EtchedBorder());
         drawPanel.setBorder(new EtchedBorder());
@@ -68,7 +68,7 @@ public class MyToolbar extends JPanel {
 
         //POLYGON MENU
         drawbutton = new JButton();
-        drawbutton.setIcon(new ImageIcon("asset/eraser.png"));
+        drawbutton.setIcon(new ImageIcon("asset/polygon.png"));
         drawbutton.addActionListener(e -> {
             reset();
 
@@ -94,6 +94,7 @@ public class MyToolbar extends JPanel {
         generateDrawMenu();
         generateEraseMenu();
         generateTextMenu();
+        generatePolygonsMenu();
     }
 
     public void generateDrawMenu() {
@@ -108,7 +109,9 @@ public class MyToolbar extends JPanel {
         drawPanel.add(jPanel);
         drawPanel.add(getColorChooser(jPanel));
         drawPanel.add(getSizeChooser(drawPanel));
-        drawPanel.add(getShapeChooser(drawPanel));
+        String label[] = {"Oval", "Square", "Rectangle"};
+
+        drawPanel.add(getShapeChooser(drawPanel, label));
 
         add(drawPanel);
 
@@ -141,15 +144,20 @@ public class MyToolbar extends JPanel {
 
         JPanel jPanel = new JPanel();
         JLabel color = new JLabel("Your color :");
+        color.setIcon(new ImageIcon("asset/color.png"));
 
         jPanel.add(color);
         jPanel.setPreferredSize(new Dimension(190, 25));
 
-        textPanel.add(jPanel);
-        textPanel.add(getColorChooser(textPanel));
-        //textPanel.add(getSizeChooser(textPanel));
+        polygonPanel.add(jPanel);
+        polygonPanel.add(getColorChooser(jPanel));
+        polygonPanel.add(getRadiusChooser(polygonPanel));
+        polygonPanel.add(getOpacityChooser(polygonPanel));
+        String label[] = {"Rectangle","Oval", "Polygon"};
 
-        add(textPanel);
+        polygonPanel.add(getShapeChooser(polygonPanel, label));
+
+        add(polygonPanel);
 
     }
 
@@ -169,8 +177,23 @@ public class MyToolbar extends JPanel {
         return sizeChooser;
     }
 
-    public JList getShapeChooser(JPanel j) {
-        String label[] = {"Oval", "Square", "Rectangle"};
+    public JSlider getRadiusChooser(JPanel j) {
+        JLabel jLabel = new JLabel("Radius :");
+        jLabel.setIcon(new ImageIcon("asset/rounded.png"));
+        j.add(jLabel);
+        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 0, 50, 0);
+        sizeChooser.setMajorTickSpacing(25);
+        sizeChooser.setMinorTickSpacing(1);
+        sizeChooser.setPaintTicks(true);
+        sizeChooser.setPaintLabels(true);
+        sizeChooser.addChangeListener(e -> {
+            DrawModel.getInstance().setSize(sizeChooser.getValue());
+        });
+
+        return sizeChooser;
+    }
+
+    public JList getShapeChooser(JPanel j, String label[]) {
         j.add(new JLabel("Shape :"));
 
         JList list = new JList<>(label);

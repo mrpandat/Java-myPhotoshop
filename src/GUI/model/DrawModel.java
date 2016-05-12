@@ -19,6 +19,9 @@ public class DrawModel {
     private String type = "";
     private String shape = "";
 
+
+    private int nbshape = 0;
+
     private static DrawModel INSTANCE = new DrawModel();
 
     public static DrawModel getInstance() {
@@ -35,7 +38,7 @@ public class DrawModel {
         color = Color.white;
         type = "";
         clickPoints = new ArrayList<Point>();
-
+        nbshape = 0;
     }
 
     public void setType(String type) {
@@ -83,7 +86,19 @@ public class DrawModel {
         clickPoints.add(p);
     }
 
+    public void resetPoint() {
+        clickPoints = new ArrayList<Point>();
+    }
+
     public ArrayList<Point> getClickPoints() {
         return clickPoints;
+    }
+
+    public int getNbshape() {
+        return nbshape;
+    }
+
+    public void setNbshape(int nbshape) {
+        this.nbshape = nbshape;
     }
 }
