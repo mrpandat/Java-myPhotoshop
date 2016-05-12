@@ -152,10 +152,10 @@ public class MyToolbar extends JPanel {
         polygonPanel.add(jPanel);
         polygonPanel.add(getColorChooser(jPanel));
         polygonPanel.add(getRadiusChooser(polygonPanel));
-        polygonPanel.add(getOpacityChooser(polygonPanel));
         String label[] = {"Rectangle","Oval", "Polygon"};
 
         polygonPanel.add(getShapeChooser(polygonPanel, label));
+        polygonPanel.add(getNumberVertices(polygonPanel));
 
         add(polygonPanel);
 
@@ -177,11 +177,27 @@ public class MyToolbar extends JPanel {
         return sizeChooser;
     }
 
+    public JSlider getNumberVertices(JPanel j) {
+        JLabel jLabel = new JLabel("Vertices :");
+        jLabel.setIcon(new ImageIcon("asset/size.png"));
+        j.add(jLabel);
+        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 0, 10, 5);
+        sizeChooser.setMajorTickSpacing(10);
+        sizeChooser.setMinorTickSpacing(1);
+        sizeChooser.setPaintTicks(true);
+        sizeChooser.setPaintLabels(true);
+        sizeChooser.addChangeListener(e -> {
+            DrawModel.getInstance().setNbshape(sizeChooser.getValue());
+        });
+
+        return sizeChooser;
+    }
+
     public JSlider getRadiusChooser(JPanel j) {
         JLabel jLabel = new JLabel("Radius :");
         jLabel.setIcon(new ImageIcon("asset/rounded.png"));
         j.add(jLabel);
-        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 0, 50, 0);
+        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 0, 100, 0);
         sizeChooser.setMajorTickSpacing(25);
         sizeChooser.setMinorTickSpacing(1);
         sizeChooser.setPaintTicks(true);

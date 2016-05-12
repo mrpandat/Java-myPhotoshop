@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * We give you this class to help you display images.
@@ -138,7 +139,9 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     @Override
     public void mouseClicked(MouseEvent e) {
         DrawModel model = DrawModel.getInstance();
-        if (!model.getType().equals("polygon")) {
+        if (!model.getType().equals("Polygon")) {
+            if(model.getNbshape() == model.getClickPoints().size())
+                drawPolygon();
             model.addPoint(e.getPoint());
             return;
         }
@@ -199,7 +202,7 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
 
     @Override
     public void mouseExited(MouseEvent e) {}
-    
+
     public void drawRectangle(Point p1, Point p2, Graphics g) {
         Rectangle rect= new Rectangle(p1);
         rect.add(p2);
@@ -215,7 +218,16 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         }
     }
 
-    public void drawPolygon(Graphics g) {
+    public void drawPolygon() {
+        DrawModel drawModel = DrawModel.getInstance();
+        Graphics g = image.getGraphics();
+        g.setColor(drawModel.getColor());
+
+        Polygon p = new Polygon();
+        for (Point point : drawModel.getClickPoints()) {
+            p.addPoint(point.x,point.y);
+        }
+        g.fillPolygon(p);
 
     }
 

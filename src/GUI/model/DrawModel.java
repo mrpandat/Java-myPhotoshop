@@ -20,7 +20,7 @@ public class DrawModel {
     private String shape = "";
 
 
-    private int nbshape = 0;
+    private int nbshape = 5;
 
     private static DrawModel INSTANCE = new DrawModel();
 
@@ -38,7 +38,7 @@ public class DrawModel {
         color = Color.white;
         type = "";
         clickPoints = new ArrayList<Point>();
-        nbshape = 0;
+        nbshape = 5;
     }
 
     public void setType(String type) {
