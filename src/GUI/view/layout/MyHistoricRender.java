@@ -19,6 +19,7 @@ public class MyHistoricRender implements ListCellRenderer {
         BufferedImage bimage = HistoricModel.getInstance().getHistoric().get(index).getImg();
         Dimension d = getDimension(bimage,200);
         ImageIcon imgicon = new ImageIcon(bimage.getScaledInstance(d.width, d.height, Image.SCALE_DEFAULT));
+
         jPanel.add(new JLabel(imgicon), BorderLayout.PAGE_END);
         jPanel.add(renderer, BorderLayout.PAGE_START);
         return jPanel;

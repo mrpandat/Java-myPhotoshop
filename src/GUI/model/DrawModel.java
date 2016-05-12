@@ -1,6 +1,9 @@
 package GUI.model;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * Created by jean on 09/05/2016.
@@ -70,5 +73,4 @@ public class DrawModel {
     public void setShape(String shape) {
         this.shape = shape;
     }
-
 }

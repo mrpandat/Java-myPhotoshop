@@ -307,7 +307,6 @@ public class MenuController {
     }
 
 
-    @Deprecated
     public void performOpenFromClipboard() {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         try {
