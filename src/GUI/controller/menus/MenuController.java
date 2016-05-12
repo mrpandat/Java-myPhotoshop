@@ -284,17 +284,21 @@ public class MenuController {
         fc.setMultiSelectionEnabled(true);
         fc.setFileFilter(new FileFilter() {
                              public boolean accept(File f) {
-                                 if (f.getName().length() < 5 && !f.getName().contains("."))
+                                 try {
+                                     if (f.getName().length() < 5 && !f.getName().contains("."))
+                                         return false;
+                                     if (f.isDirectory()) {
+                                         return true;
+                                     } else if (
+                                             filters.contains(f.getName().substring(f.getName().length() - 4, f.getName().length()))) {
+                                         return true;
+                                     } else if (
+                                             filters.contains(f.getName().substring(f.getName().length() - 6, f.getName().length()))) {
+                                         return true;
+                                     } else return false;
+                                 } catch (Exception e) {
                                      return false;
-                                 if (f.isDirectory()) {
-                                     return true;
-                                 } else if (
-                                         filters.contains(f.getName().substring(f.getName().length() - 4, f.getName().length()))) {
-                                     return true;
-                                 } else if (
-                                         filters.contains(f.getName().substring(f.getName().length() - 6, f.getName().length()))) {
-                                     return true;
-                                 } else return false;
+                                 }
                              }
 
                              public String getDescription() {
