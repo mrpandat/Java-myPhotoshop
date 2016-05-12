@@ -138,6 +138,8 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        DrawModel model = DrawModel.getInstance();
+        if(!model.getType().equals("polygon")) return;
 
     }
 

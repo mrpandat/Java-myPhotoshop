@@ -9,10 +9,11 @@ import java.awt.*;
 
 
 public class MyToolbar extends JPanel {
-    public JPanel mainPanel;
-    public JPanel drawPanel = new JPanel();
-    public JPanel erasePanel = new JPanel();
-    public JPanel textPanel = new JPanel();
+    private JPanel mainPanel;
+    private JPanel drawPanel = new JPanel();
+    private JPanel erasePanel = new JPanel();
+    private JPanel textPanel = new JPanel();
+    private JPanel polygonPanel = new JPanel();
 
 
     MyToolbar(JPanel mainPanel) {
@@ -22,14 +23,17 @@ public class MyToolbar extends JPanel {
         drawPanel.setPreferredSize(new Dimension(200, 500));
         erasePanel.setPreferredSize(new Dimension(200, 500));
         textPanel.setPreferredSize(new Dimension(200, 500));
+        textPanel.setPreferredSize(new Dimension(200, 500));
 
         erasePanel.setBorder(new EtchedBorder());
         drawPanel.setBorder(new EtchedBorder());
         textPanel.setBorder(new EtchedBorder());
+        polygonPanel.setBorder(new EtchedBorder());
 
         drawPanel.setVisible(false);
         erasePanel.setVisible(false);
         textPanel.setVisible(false);
+        polygonPanel.setVisible(false);
 
     }
 
@@ -62,8 +66,19 @@ public class MyToolbar extends JPanel {
         });
         add(drawbutton);
 
-        //TEXT BUTTON
+        //POLYGON MENU
+        drawbutton = new JButton();
+        drawbutton.setIcon(new ImageIcon("asset/eraser.png"));
+        drawbutton.addActionListener(e -> {
+            reset();
 
+            DrawModel.getInstance().setType("polygon");
+            polygonPanel.setVisible(true);
+        });
+        add(drawbutton);
+
+        //TEXT BUTTON
+/*
         drawbutton = new JButton();
         drawbutton.setText("text");
         drawbutton.addActionListener(e -> {
@@ -73,7 +88,7 @@ public class MyToolbar extends JPanel {
             textPanel.setVisible(true);
         });
         //add(drawbutton);
-
+*/
 
         setVisible(true);
         generateDrawMenu();
@@ -117,6 +132,22 @@ public class MyToolbar extends JPanel {
         textPanel.add(jPanel);
         textPanel.add(getColorChooser(textPanel));
         textPanel.add(getSizeChooser(textPanel));
+
+        add(textPanel);
+
+    }
+
+    public void generatePolygonsMenu() {
+
+        JPanel jPanel = new JPanel();
+        JLabel color = new JLabel("Your color :");
+
+        jPanel.add(color);
+        jPanel.setPreferredSize(new Dimension(190, 25));
+
+        textPanel.add(jPanel);
+        textPanel.add(getColorChooser(textPanel));
+        //textPanel.add(getSizeChooser(textPanel));
 
         add(textPanel);
 
@@ -184,6 +215,7 @@ public class MyToolbar extends JPanel {
         DrawModel.getInstance().reset();
         drawPanel.setVisible(false);
         erasePanel.setVisible(false);
+        polygonPanel.setVisible(false);
         textPanel.setVisible(false);
     }
 

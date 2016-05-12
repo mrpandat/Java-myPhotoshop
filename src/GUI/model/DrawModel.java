@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by jean on 09/05/2016.
@@ -11,12 +12,12 @@ import java.io.IOException;
 public class DrawModel {
 
 
-    int size = 5;
-    int opacity = 50;
-    Color color = Color.white;
-    String type = "";
-
-    String shape = "";
+    private int size = 5;
+    private int opacity = 50;
+    private Color color = Color.white;
+    private ArrayList<Point> clickPoints = new ArrayList<Point>();
+    private String type = "";
+    private String shape = "";
 
     private static DrawModel INSTANCE = new DrawModel();
 
@@ -24,13 +25,17 @@ public class DrawModel {
         return INSTANCE;
     }
 
-    private DrawModel() {}
+    private DrawModel() {
+        clickPoints = new ArrayList<Point>();
+    }
 
     public void reset() {
-         size = 5;
-         opacity = 50;
-         color = Color.white;
-         type = "";
+        size = 5;
+        opacity = 50;
+        color = Color.white;
+        type = "";
+        clickPoints = new ArrayList<Point>();
+
     }
 
     public void setType(String type) {
@@ -72,5 +77,13 @@ public class DrawModel {
 
     public void setShape(String shape) {
         this.shape = shape;
+    }
+
+    public void addPoint(Point p) {
+        clickPoints.add(p);
+    }
+
+    public ArrayList<Point> getClickPoints() {
+        return clickPoints;
     }
 }

@@ -27,7 +27,7 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
             File file = jfc.getSelectedFile();
             updateImage(file);
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 
@@ -91,7 +91,7 @@ public class PreviewFileChooser extends JPanel implements PropertyChangeListener
             ois.close();
             fin.close();
         } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
         file.delete();
         return res;
