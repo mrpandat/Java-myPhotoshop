@@ -141,6 +141,7 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     @Override
     public void mouseClicked(MouseEvent e) {
         DrawModel model = DrawModel.getInstance();
+        if (!mouseIn) return;
         if (model.getType().equals("bucket")) bucketFill(e.getPoint());
         if (!model.getType().equals("polygon")) return;
         if (model.getShape().equals("Polygon")) {
@@ -250,41 +251,47 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     public void bucketFill(Point p) {
         DrawModel drawModel = DrawModel.getInstance();
         BufferedImage img = MainModel.getInstance().getImg().getImage();
-        ArrayList<Point> a = new ArrayList<Point>();
-        fillPixels(img, img.getRGB(p.x, p.y), p, a);
-        for (Point point : a) {
-            img.setRGB(point.x, point.y, Color.red.getRGB());
-        }
+        fillPixels(img, img.getRGB(p.x, p.y), p, drawModel.getColor().getRGB());
         repaint();
         drawModel.resetPoint();
         MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
         return;
     }
 
-    public void fillPixels(BufferedImage img, int color, Point p, ArrayList<Point> a) {
-        if (
-                p.x <= 0 || p.y <= 0
-                        || p.x >= img.getWidth() - 1 || p.y >= img.getHeight() - 1
-                        || img.getRGB(p.x, p.y) != color
-                )
-            return;
-        if (!a.contains(p))
-            a.add(p);
-        else
-            return;
-        if (img.getRGB(p.x + 1, p.y) == color) {
-            fillPixels(img, color, new Point(p.x + 1, p.y), a);
-        }
-        if (img.getRGB(p.x, p.y + 1) == color) {
-            fillPixels(img, color, new Point(p.x, p.y + 1), a);
-        }
-        if (img.getRGB(p.x - 1, p.y) == color) {
-            fillPixels(img, color, new Point(p.x - 1, p.y), a);
-        }
-        if (img.getRGB(p.x, p.y - 1) == color) {
-            fillPixels(img, color, new Point(p.x, p.y - 1), a);
+
+    public void fillPixels(BufferedImage img, int color, Point p, int c) {
+        ArrayList<Point> points = new ArrayList<Point>();
+        points.add(p);
+        if(c == color) return;
+        while (points.size() != 0) {
+            p = points.get(0);
+            if (img.getRGB(p.x + 1, p.y) == color) {
+                Point p1 = new Point(p.x + 1, p.y);
+                if (!points.contains(p1) && p.x + 1 < img.getWidth() - 1)
+                    points.add(p1);
+            }
+            if (img.getRGB(p.x - 1, p.y) == color) {
+                Point p1 = new Point(p.x - 1, p.y);
+                if (!points.contains(p1) && p.x - 1 > 1)
+                    points.add(p1);
+            }
+            if (img.getRGB(p.x, p.y + 1) == color) {
+                Point p1 = new Point(p.x, p.y + 1);
+                if (!points.contains(p1) && p.y + 1 < img.getHeight() - 1)
+                    points.add(p1);
+            }
+
+            if (img.getRGB(p.x, p.y - 1) == color) {
+                Point p1 = new Point(p.x, p.y - 1);
+                if (!points.contains(p1) && p.y - 1 > 1)
+                    points.add(p1);
+            }
+
+            img.setRGB(p.x, p.y, c);
+            if (points.size() > 10000)
+                return;
+            points.remove(0);
         }
     }
-
 
 }
