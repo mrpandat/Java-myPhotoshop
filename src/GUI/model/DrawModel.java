@@ -30,7 +30,7 @@ public class DrawModel {
     }
 
     public void reset() {
-        size = 5;
+        size = 25;
         opacity = 50;
         color = Color.white;
         type = "";

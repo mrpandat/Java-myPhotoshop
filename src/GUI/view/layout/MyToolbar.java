@@ -14,6 +14,7 @@ public class MyToolbar extends JPanel {
     private JPanel erasePanel = new JPanel();
     private JPanel textPanel = new JPanel();
     private JPanel polygonPanel = new JPanel();
+    private JPanel bucketPanel = new JPanel();
 
 
     MyToolbar(JPanel mainPanel) {
@@ -24,16 +25,19 @@ public class MyToolbar extends JPanel {
         erasePanel.setPreferredSize(new Dimension(200, 500));
         textPanel.setPreferredSize(new Dimension(200, 500));
         polygonPanel.setPreferredSize(new Dimension(200, 500));
+        bucketPanel.setPreferredSize(new Dimension(200, 500));
 
         erasePanel.setBorder(new EtchedBorder());
         drawPanel.setBorder(new EtchedBorder());
         textPanel.setBorder(new EtchedBorder());
         polygonPanel.setBorder(new EtchedBorder());
+        bucketPanel.setBorder(new EtchedBorder());
 
         drawPanel.setVisible(false);
         erasePanel.setVisible(false);
         textPanel.setVisible(false);
         polygonPanel.setVisible(false);
+        bucketPanel.setVisible(false);
 
     }
 
@@ -77,24 +81,24 @@ public class MyToolbar extends JPanel {
         });
         add(drawbutton);
 
-        //TEXT BUTTON
-/*
+        //BUCKET MENU
         drawbutton = new JButton();
-        drawbutton.setText("text");
+        drawbutton.setIcon(new ImageIcon("asset/bucket.png"));
         drawbutton.addActionListener(e -> {
             reset();
 
-            DrawModel.getInstance().setType("text");
-            textPanel.setVisible(true);
+            DrawModel.getInstance().setType("bucket");
+            bucketPanel.setVisible(true);
         });
-        //add(drawbutton);
-*/
+        add(drawbutton);
+
 
         setVisible(true);
         generateDrawMenu();
         generateEraseMenu();
         generateTextMenu();
         generatePolygonsMenu();
+        generateBucketMenu();
     }
 
     public void generateDrawMenu() {
@@ -158,6 +162,22 @@ public class MyToolbar extends JPanel {
         polygonPanel.add(getNumberVertices(polygonPanel));
 
         add(polygonPanel);
+
+    }
+
+    public void generateBucketMenu() {
+
+        JPanel jPanel = new JPanel();
+        JLabel color = new JLabel("Your color :");
+        color.setIcon(new ImageIcon("asset/color.png"));
+
+        jPanel.add(color);
+        jPanel.setPreferredSize(new Dimension(190, 25));
+
+        bucketPanel.add(jPanel);
+        bucketPanel.add(getColorChooser(jPanel));
+
+        add(bucketPanel);
 
     }
 

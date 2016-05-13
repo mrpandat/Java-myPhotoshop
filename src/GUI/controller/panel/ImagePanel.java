@@ -5,6 +5,8 @@ import GUI.controller.historic.ActionPanel;
 import GUI.controller.historic.HistoricController;
 import GUI.model.DrawModel;
 import GUI.model.HistoricModel;
+import GUI.model.MainModel;
+import main.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -139,22 +141,23 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     @Override
     public void mouseClicked(MouseEvent e) {
         DrawModel model = DrawModel.getInstance();
-        if(!model.getType().equals("polygon")) return;
+        if (model.getType().equals("bucket")) bucketFill(e.getPoint());
+        if (!model.getType().equals("polygon")) return;
         if (model.getShape().equals("Polygon")) {
             model.addPoint(e.getPoint());
-            if(model.getNbshape() == model.getClickPoints().size())
+            if (model.getNbshape() == model.getClickPoints().size())
                 drawPolygon();
             return;
         }
         //if polygon is not selected, reset all point
-        if(model.getClickPoints().size() > 1) model.resetPoint();
+        if (model.getClickPoints().size() > 1) model.resetPoint();
         if (model.getClickPoints().isEmpty()) {
             model.addPoint(e.getPoint());
             return;
         }
         Graphics g = image.getGraphics();
         g.setColor(model.getColor());
-        drawRectangle(e.getPoint(), model.getClickPoints().get(0),g);
+        drawRectangle(e.getPoint(), model.getClickPoints().get(0), g);
         g.dispose();
         repaint();
         model.resetPoint();
@@ -199,18 +202,20 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     }
 
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent e) {
+    }
 
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent e) {
+    }
 
     public void drawRectangle(Point p1, Point p2, Graphics g) {
-        Rectangle rect= new Rectangle(p1);
+        Rectangle rect = new Rectangle(p1);
         rect.add(p2);
         DrawModel model = DrawModel.getInstance();
         switch (model.getShape()) {
             case "Rectangle":
-                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height,model.getSize(),model.getSize());
+                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, model.getSize(), model.getSize());
                 break;
             case "Oval":
                 g.fillOval(rect.x, rect.y, rect.width, rect.height);
@@ -229,11 +234,11 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         int[] ypoint = new int[drawModel.getNbshape()];
 
         for (int i = 0; i < drawModel.getNbshape(); i++) {
-            xpoint[i] = (int)drawModel.getClickPoints().get(i).getX();
-            ypoint[i] = (int)drawModel.getClickPoints().get(i).getY();
+            xpoint[i] = (int) drawModel.getClickPoints().get(i).getX();
+            ypoint[i] = (int) drawModel.getClickPoints().get(i).getY();
         }
 
-        Polygon p = new Polygon(xpoint,ypoint,drawModel.getNbshape());
+        Polygon p = new Polygon(xpoint, ypoint, drawModel.getNbshape());
         g.fillPolygon(p);
         g.dispose();
         repaint();
@@ -241,5 +246,45 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
         return;
     }
+
+    public void bucketFill(Point p) {
+        DrawModel drawModel = DrawModel.getInstance();
+        BufferedImage img = MainModel.getInstance().getImg().getImage();
+        ArrayList<Point> a = new ArrayList<Point>();
+        fillPixels(img, img.getRGB(p.x, p.y), p, a);
+        for (Point point : a) {
+            img.setRGB(point.x, point.y, Color.red.getRGB());
+        }
+        repaint();
+        drawModel.resetPoint();
+        MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
+        return;
+    }
+
+    public void fillPixels(BufferedImage img, int color, Point p, ArrayList<Point> a) {
+        if (
+                p.x <= 0 || p.y <= 0
+                        || p.x >= img.getWidth() - 1 || p.y >= img.getHeight() - 1
+                        || img.getRGB(p.x, p.y) != color
+                )
+            return;
+        if (!a.contains(p))
+            a.add(p);
+        else
+            return;
+        if (img.getRGB(p.x + 1, p.y) == color) {
+            fillPixels(img, color, new Point(p.x + 1, p.y), a);
+        }
+        if (img.getRGB(p.x, p.y + 1) == color) {
+            fillPixels(img, color, new Point(p.x, p.y + 1), a);
+        }
+        if (img.getRGB(p.x - 1, p.y) == color) {
+            fillPixels(img, color, new Point(p.x - 1, p.y), a);
+        }
+        if (img.getRGB(p.x, p.y - 1) == color) {
+            fillPixels(img, color, new Point(p.x, p.y - 1), a);
+        }
+    }
+
 
 }
