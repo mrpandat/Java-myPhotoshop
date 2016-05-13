@@ -274,10 +274,24 @@ public class MyToolbar extends JPanel {
 
     public void reset() {
         DrawModel.getInstance().reset();
+        drawPanel.removeAll();
+        erasePanel.removeAll();
+        polygonPanel.removeAll();
+        textPanel.removeAll();
+        bucketPanel.removeAll();
+
+        generateDrawMenu();
+        generateEraseMenu();
+        generateTextMenu();
+        generatePolygonsMenu();
+        generateBucketMenu();
+
+
         drawPanel.setVisible(false);
         erasePanel.setVisible(false);
         polygonPanel.setVisible(false);
         textPanel.setVisible(false);
+        bucketPanel.setVisible(false);
     }
 
 }
