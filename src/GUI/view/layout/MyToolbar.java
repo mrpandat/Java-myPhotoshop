@@ -181,13 +181,14 @@ public class MyToolbar extends JPanel {
         JLabel jLabel = new JLabel("Vertices :");
         jLabel.setIcon(new ImageIcon("asset/size.png"));
         j.add(jLabel);
-        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 0, 10, 5);
+        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 5, 10, 7);
         sizeChooser.setMajorTickSpacing(10);
         sizeChooser.setMinorTickSpacing(1);
         sizeChooser.setPaintTicks(true);
         sizeChooser.setPaintLabels(true);
         sizeChooser.addChangeListener(e -> {
             DrawModel.getInstance().setNbshape(sizeChooser.getValue());
+            DrawModel.getInstance().resetPoint();
         });
 
         return sizeChooser;

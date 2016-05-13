@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DrawModel {
 
 
-    private int size = 5;
+    private int size = 25;
     private int opacity = 50;
     private Color color = Color.white;
     private ArrayList<Point> clickPoints = new ArrayList<Point>();
@@ -38,7 +38,7 @@ public class DrawModel {
         color = Color.white;
         type = "";
         clickPoints = new ArrayList<Point>();
-        nbshape = 5;
+        nbshape = 7;
     }
 
     public void setType(String type) {

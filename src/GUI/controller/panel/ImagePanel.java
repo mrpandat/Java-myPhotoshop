@@ -139,10 +139,11 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
     @Override
     public void mouseClicked(MouseEvent e) {
         DrawModel model = DrawModel.getInstance();
-        if (!model.getType().equals("Polygon")) {
+        if(!model.getType().equals("polygon")) return;
+        if (model.getShape().equals("Polygon")) {
+            model.addPoint(e.getPoint());
             if(model.getNbshape() == model.getClickPoints().size())
                 drawPolygon();
-            model.addPoint(e.getPoint());
             return;
         }
         //if polygon is not selected, reset all point
@@ -223,12 +224,22 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         Graphics g = image.getGraphics();
         g.setColor(drawModel.getColor());
 
-        Polygon p = new Polygon();
-        for (Point point : drawModel.getClickPoints()) {
-            p.addPoint(point.x,point.y);
-        }
-        g.fillPolygon(p);
 
+        int[] xpoint = new int[drawModel.getNbshape()];
+        int[] ypoint = new int[drawModel.getNbshape()];
+
+        for (int i = 0; i < drawModel.getNbshape(); i++) {
+            xpoint[i] = (int)drawModel.getClickPoints().get(i).getX();
+            ypoint[i] = (int)drawModel.getClickPoints().get(i).getY();
+        }
+
+        Polygon p = new Polygon(xpoint,ypoint,drawModel.getNbshape());
+        g.fillPolygon(p);
+        g.dispose();
+        repaint();
+        drawModel.resetPoint();
+        MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
+        return;
     }
 
 }
