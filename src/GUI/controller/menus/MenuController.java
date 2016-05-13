@@ -52,6 +52,7 @@ public class MenuController {
             FileInputStream fin = null;
             try {
 
+                String path = file.getPath();
                 file = performUncompress(file);
                 fin = new FileInputStream(file.getPath());
                 ObjectInputStream ois = new ObjectInputStream(fin);
@@ -65,7 +66,7 @@ public class MenuController {
                 model.panelDraw.addTab(file.getName(), p.getContent());
                 model.panelDraw.setSelectedIndex(model.panelDraw.getTabCount() - 1);
                 model.getImg().modify = 0;
-                model.getImg().path = file.getPath();
+                model.getImg().path = path;
                 ois.close();
                 fin.close();
                 file.delete();
@@ -117,7 +118,13 @@ public class MenuController {
 
 
     public void performSave() {
+
         if (model.panelDraw.getTabCount() <= 0) return;
+        if (model.getImg().modify == 0) {
+            JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel,
+                    "You must modify your image before saving");
+            return;
+        }
         File f = new File(MainModel.getInstance().getImg().path);
         if (!f.exists()) {
             performSaveAs();
@@ -151,7 +158,7 @@ public class MenuController {
             oos.close();
             out.close();
 
-            performCompress(new File(s), model.getImg().path , f.getName());
+            performCompress(new File(s), model.getImg().path, f.getName());
 
             model.setStatusBar("Save");
             model.getImg().modify = 0;

@@ -24,7 +24,6 @@ public class MainModel extends Observable {
     public JLabel statusBar;
     public ArrayList<Thread> filterThread = new ArrayList<Thread>();
 
-
     public MainView mainView;
 
     private MainModel() {
