@@ -133,7 +133,7 @@ public class MyMenu extends JMenuBar {
 
         mi = new JMenuItem();
         mi.setText("Change historic size");
-        mi.setIcon(new ImageIcon("asset/historic.png"));
+        mi.setIcon(new ImageIcon("asset/history.png"));
 
         mi.addActionListener(e -> HistoricModel.getInstance().setSize());
         edit.add(mi);

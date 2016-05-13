@@ -181,8 +181,8 @@ public class MyToolbar extends JPanel {
         JLabel jLabel = new JLabel("Vertices :");
         jLabel.setIcon(new ImageIcon("asset/size.png"));
         j.add(jLabel);
-        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 5, 10, 7);
-        sizeChooser.setMajorTickSpacing(10);
+        JSlider sizeChooser = new JSlider(JSlider.HORIZONTAL, 5, 15, 7);
+        sizeChooser.setMajorTickSpacing(5);
         sizeChooser.setMinorTickSpacing(1);
         sizeChooser.setPaintTicks(true);
         sizeChooser.setPaintLabels(true);
@@ -211,8 +211,9 @@ public class MyToolbar extends JPanel {
     }
 
     public JList getShapeChooser(JPanel j, String label[]) {
-        j.add(new JLabel("Shape :"));
-
+        JLabel jLabel = new JLabel("Shape :");
+        jLabel.setIcon(new ImageIcon("asset/shape.png"));
+        j.add(jLabel);
         JList list = new JList<>(label);
         DefaultListSelectionModel sm = new DefaultListSelectionModel();
         sm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
