@@ -156,7 +156,7 @@ public class MyToolbar extends JPanel {
         polygonPanel.add(jPanel);
         polygonPanel.add(getColorChooser(jPanel));
         polygonPanel.add(getRadiusChooser(polygonPanel));
-        String label[] = {"Rectangle","Oval", "Polygon"};
+        String label[] = {"Rectangle", "Oval", "Polygon"};
 
         polygonPanel.add(getShapeChooser(polygonPanel, label));
         polygonPanel.add(getNumberVertices(polygonPanel));
@@ -224,7 +224,7 @@ public class MyToolbar extends JPanel {
         sizeChooser.setPaintTicks(true);
         sizeChooser.setPaintLabels(true);
         sizeChooser.addChangeListener(e -> {
-            DrawModel.getInstance().setSize(sizeChooser.getValue());
+            DrawModel.getInstance().setRadius(sizeChooser.getValue());
         });
 
         return sizeChooser;
@@ -248,7 +248,8 @@ public class MyToolbar extends JPanel {
         drawbutton.setText("Choose your color");
         drawbutton.addActionListener(e -> {
                     DrawModel.getInstance().setColor(JColorChooser.showDialog(null, "Choose your color", Color.WHITE));
-                    jPanel.setBackground(DrawModel.getInstance().getColor());
+                    //remove transparency from colorchooser
+                    jPanel.setBackground(new Color(DrawModel.getInstance().getColor().getRGB() | 0xFF000000));
                 }
         );
         drawbutton.setPreferredSize(new Dimension(190, 25));
@@ -257,12 +258,12 @@ public class MyToolbar extends JPanel {
     }
 
     public JSlider getOpacityChooser(JPanel j) {
-        JSlider opacity = new JSlider(JSlider.HORIZONTAL, 1, 250, 125);
+        JSlider opacity = new JSlider(JSlider.HORIZONTAL, 1, 100, 50);
         JLabel jLabel = new JLabel("Opacity :");
         jLabel.setIcon(new ImageIcon("asset/opacity.png"));
         j.add(jLabel);
 
-        opacity.setMajorTickSpacing(249);
+        opacity.setMajorTickSpacing(99);
         opacity.setMinorTickSpacing(25);
         opacity.setPaintTicks(true);
         opacity.setPaintLabels(true);

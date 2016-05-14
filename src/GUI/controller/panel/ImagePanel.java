@@ -197,7 +197,8 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (!mouseIn || !dragged || DrawModel.getInstance().getShape().isEmpty()) return;
+        if (!mouseIn || !dragged ||DrawModel.getInstance().getType().equals("polygon")||DrawModel.getInstance().getType().equals("bucket")) return;
+        if(!DrawModel.getInstance().getType().equals("erase") && DrawModel.getInstance().getShape().isEmpty()) return;
         MainController.applyModification(image, new ActionPanel(DrawModel.getInstance().getType(), image));
         dragged = false;
     }
@@ -216,7 +217,7 @@ public class ImagePanel extends JPanel implements Serializable, MouseListener, M
         DrawModel model = DrawModel.getInstance();
         switch (model.getShape()) {
             case "Rectangle":
-                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, model.getSize(), model.getSize());
+                g.fillRoundRect(rect.x, rect.y, rect.width, rect.height, model.getRadius(), model.getRadius());
                 break;
             case "Oval":
                 g.fillOval(rect.x, rect.y, rect.width, rect.height);

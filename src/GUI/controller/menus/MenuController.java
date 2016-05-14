@@ -134,6 +134,9 @@ public class MenuController {
         ObjectOutput oos = null;
         String s = MainModel.getInstance().getImg().getFileName();
         try {
+            if (!f.canRead() || !f.canWrite())
+                JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel, "Bad rights for the file ");
+
             if (
                     s.endsWith(".bmp") ||
                             s.endsWith(".jpg") ||
@@ -179,7 +182,8 @@ public class MenuController {
         ObjectOutput oos = null;
         if (fc.showSaveDialog(model.mainPanel) == JFileChooser.APPROVE_OPTION) {
             try {
-
+                if (!fc.getSelectedFile().canRead() || !fc.getSelectedFile().canWrite())
+                    JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel, "Bad rights for the file ");
                 ImagePanel imgp = model.getImg();
                 imgp.setHistoric();
                 imgp.path = fc.getSelectedFile().getPath();

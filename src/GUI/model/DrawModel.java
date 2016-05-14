@@ -11,6 +11,7 @@ public class DrawModel {
 
     private int size = 25;
     private int opacity = 50;
+    private int radius = 0;
     private Color color = Color.white;
     private ArrayList<Point> clickPoints = new ArrayList<Point>();
     private String type = "";
@@ -36,6 +37,7 @@ public class DrawModel {
         type = "";
         clickPoints = new ArrayList<Point>();
         nbshape = 7;
+        radius = 0;
     }
 
     public void setType(String type) {
@@ -98,4 +100,15 @@ public class DrawModel {
     public void setNbshape(int nbshape) {
         this.nbshape = nbshape;
     }
+
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+
 }
