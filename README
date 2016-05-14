@@ -1,4 +1,22 @@
 myPhotoShop
 
-We give you this tarball to help you begin your project. You are free to modify
-everything except the Filter interface.
+The goal of this project is to reproduce a simple version of photoshop.
+
+I have implemented the following features :
+
+2 - Better open/close
+4 - Better saving
+6 - Better History
+7 - Status Bar
+8 - Draw
+9 - Erase
+11 - Polygons
+
+I also have implemented the following bonuses:
+
+- The transparency for all colors.
+- The fill Bucket.
+- The french flag filter.
+- Export an image as png/jpg.
+- Shorcuts for menus.
+- All features have a icon associated.
