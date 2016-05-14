@@ -4,7 +4,10 @@ import GUI.controller.panel.ImagePanel;
 import GUI.model.HistoricModel;
 import GUI.model.MainModel;
 import GUI.view.layout.ProjectPanel;
+import javafx.stage.FileChooser;
+import main.Main;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import java.awt.*;
@@ -340,6 +343,23 @@ public class MenuController {
         } catch (UnsupportedFlavorException e) {
             JOptionPane.showMessageDialog(MainModel.getInstance().mainPanel,
                     "Your clipboard must have an image in it");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void performExportAs(String format) {
+        if (model.panelDraw.getTabCount() <= 0) return;
+        ArrayList<String> a = new ArrayList<String>();
+        a.add(format);
+        JFileChooser fc = getFileChooser(a);
+        fc.showSaveDialog(model.mainPanel);
+        File f = fc.getSelectedFile();
+        String name = f.getPath();
+        if(!f.getPath().endsWith(format))
+           name = f.getPath() + format;
+        try {
+            ImageIO.write(MainModel.getInstance().getImg().getImage(), format,new File(name));
         } catch (IOException e) {
             e.printStackTrace();
         }

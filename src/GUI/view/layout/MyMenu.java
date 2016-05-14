@@ -6,6 +6,7 @@ import GUI.model.MainModel;
 import filter.Filter;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import static javax.swing.KeyStroke.getKeyStroke;
@@ -79,25 +80,35 @@ public class MyMenu extends JMenuBar {
         mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_MASK + KeyEvent.SHIFT_DOWN_MASK));
         mi.addActionListener(e -> controller.menuController.performSaveAs());
 
+        JMenu exportMenu = new JMenu();
+        exportMenu.setText("Export as");
+        exportMenu.setIcon(new ImageIcon("asset/export.png"));
+        mi = new JMenuItem();
+        mi.setText("jpg");
+        mi.addActionListener(e -> controller.menuController.performExportAs(".jpg"));
+        exportMenu.add(mi);
 
+        mi = new JMenuItem();
+        mi.setText("png");
+        mi.addActionListener(e -> controller.menuController.performExportAs(".png"));
+        exportMenu.add(mi);
+
+        file.add(exportMenu);
 
         mi = new JMenuItem();
         mi.setText("Close");
         mi.setIcon(new ImageIcon("asset/close.png"));
-
         file.add(mi);
         mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, KeyEvent.CTRL_MASK));
-
         mi.addActionListener(e -> controller.menuController.performClose());
 
 
         mi = new JMenuItem();
         mi.setText("Close All");
         mi.setIcon(new ImageIcon("asset/closeall.png"));
-
         file.add(mi);
-
         mi.addActionListener(e -> controller.menuController.performCloseAll());
+
     }
 
     private void generateEditMenu(MainController controller) {
